@@ -52,21 +52,18 @@ $description = 'Iba Escuela ' .date("Y");
     
     </style>
 <?php endif; ?>
-</head>
-<body>
  <?php if (!empty($current_user)) : ?>
     
          <?php if (!empty($current_user) && $current_user['rol_id'] === ADMINISTRADOR) : ?>
           	 <?= $this->element('menuAdminTopBar');?>
          <?php elseif (!empty($current_user) && $current_user['rol_id'] === PROFESOR) : ?>
-         	<?= $this->element('menuProfeTopBar') ?>
+         	<?= $this->element('menuOperadorTopBar') ?>
          <?php endif; ?>
         
      
    <?php endif;?>
-   
-         
-    
+</head>
+<body>
     <?= $this->Flash->render() ?>
 	<div class='image' ></div>
     <div class ="flex-container" >

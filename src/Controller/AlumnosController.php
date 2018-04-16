@@ -20,17 +20,8 @@ class AlumnosController extends AppController
 		parent::initialize();
 	}
 
-	
-	
 	public function isAuthorized($user)
 	{
-		if(isset($user['rol_id']) &&  $user['rol_id'] == PROFESOR)
-		{
-			if(in_array($this->request->action, ['pView','pIndex']))
-			{
-				return true;
-			}
-		}
 		if(isset($user['rol_id']) &&  $user['rol_id'] == OPERADOR)
 		{
 			if(in_array($this->request->action, ['oView','oIndex']))
@@ -59,18 +50,6 @@ class AlumnosController extends AppController
      	];
      
         $alumnos = $this->paginate($this->Alumnos);
-// 		$alus= $this->Alumnos->find('all');
-// 		foreach ($alus as $alumno)
-//         {
-//         	$id = $alumno->id;
-//         	$connection = ConnectionManager::get('default');
-//         	$queryEdad = "(SELECT DATEDIFF(CURRENT_DATE, t.fecha_nacimiento)/365 as edad
-//         	FROM alumnos t where t.id = $id)";
-//         	$rEdad=$connection->execute($queryEdad);
-//         	$edad = intval($rEdad->fetch()[0]);
-//         	$connection->execute("UPDATE alumnos SET edad= $edad  WHERE alumnos.id = $id");
-        	
-//         }
         
         $this->set(compact('alumnos'));
     }
@@ -244,33 +223,20 @@ class AlumnosController extends AppController
             	{
             		if ($tieneClases)
             		{
-            			if($alumno->programa_adolecencia)
-            			{	
             				if (!$this->insertarSeguimientoPrograma($alumno->id, $this->request->getData("clases")['_ids']))
             				{
             					$this->Alumnos->delete($alumno);
             					$this->Flash->error(__('Problema al crear los seguimientos. Alumno no guardado'));
             					return $this->redirect($this->referer());
             				}
-            			}
-            			else 
-            			{
-            				if (!$this->insertarSeguimiento($alumno->id, $this->request->getData("clases")['_ids']))
-            				{
-            					$this->Alumnos->delete($alumno);
-            					$this->Flash->error(__('Problema al crear los seguimientos. Alumno no guardado'));
-            					return $this->redirect($this->referer());
-            				}
-            			}
             		}
             		$this->Flash->success(__('Alumno guardado.'));
             		return $this->redirect(['action' => 'index']);
             	}
 	            
         }
-        $profesores = TableRegistry::get('Profesores')->find('list')->where(['active' => true]);
-        //$clases = $this->Alumnos->Clases->find('list', ['limit' => 200]);
-        $this->set(compact('alumno', 'clases','profesores'));
+        $operadores = TableRegistry::get('Operadores')->find('list')->where(['active' => true]);
+        $this->set(compact('alumno', 'clases','operadores'));
     }
 
     /**
@@ -388,8 +354,8 @@ class AlumnosController extends AppController
             $this->Flash->error(__('El alumno no pudo ser guardado, reintente'));
         }
        $clases = $this->Alumnos->Clases->find('list', ['limit' => 200]);
-       $profesores = TableRegistry::get('Profesores')->find('list')->where(['active' => true]);
-        $this->set(compact('alumno','clases','profesores'));
+       $operadores = TableRegistry::get('Operadores')->find('list')->where(['active' => true]);
+        $this->set(compact('alumno','clases','operadores'));
     }
 
     /**
@@ -444,7 +410,7 @@ class AlumnosController extends AppController
     	$alumnos = $this->Alumnos->find('all')
     	->find('ordered')
     	->matching('Clases', function ($q)  {
-    		return $q->where(['ClasesAlumnos.active' => true, 'Clases.profesor_id' =>  $this->Auth->user('profesor_id')]);
+    		return $q->where(['ClasesAlumnos.active' => true, 'Clases.operador_id' =>  $this->Auth->user('operador_id')]);
     	})
     	->distinct(['Alumnos.id'])
     	
@@ -471,16 +437,16 @@ class AlumnosController extends AppController
     	$this->set(compact('alumnos'));
     }
     
-    public function pView($id = null)
+    public function oView($id = null)
     {
-    	$idProfesor = $this->Auth->user('profesor_id');
+    	$idOperador = $this->Auth->user('operador_id');
     	$clasesTable= TableRegistry::get('Clases');
     	$clases = $clasesTable->find()
     	->select('Clases.id')
     	->matching('Alumnos', function ($q) use ($id) {
     		return $q->where(['ClasesAlumnos.active' => true, 'ClasesAlumnos.alumno_id' => $id]);
     	})
-    	->where(['Clases.profesor_id' => $idProfesor])
+    	->where(['Clases.operador_id' => $idOperador])
     	->toArray();
     	$ids = null;
     	(count($clases) > 0) ? $ids = array() : $ids = -1 ;
@@ -854,13 +820,13 @@ class AlumnosController extends AppController
 	 */
 	public function getDisciplinas() {
 		$this->autoRender = false; // We don't render a view in this example
-		$profesor_id = $this->request->getQuery('profesor_id');
+		$operador_id = $this->request->getQuery('operador_id');
 		$programa = $this->request->getQuery('programa');
 		$discs = TableRegistry::get('Disciplinas')->find('all')
 	//	->select(['Disciplinas.id' => 'id','Disciplinas.descripcion' => 'desc' ])
 		->distinct('Disciplinas.descripcion')
 		->matching('Clases')
-		->where(['Clases.profesor_id' => $profesor_id,'Clases.programa_adolescencia' => $programa])
+		->where(['Clases.operador_id' => $operador_id,'Clases.programa_adolescencia' => $programa])
 		->order('Disciplinas.descripcion')
 		;
 		$i = 0;
@@ -882,12 +848,12 @@ class AlumnosController extends AppController
 	{
 		$this->autoRender = false; // We don't render a view in this example
 		$disciplina_id = $this->request->getQuery('idDisciplina');
-		$profesor_id= $this->request->getQuery('profesor_id');
+		$operador_id= $this->request->getQuery('operador_id');
 		$programa = $this->request->getQuery('programa');
 		$clases = TableRegistry::get('Clases')->find('all')
 		//	->select(['Disciplinas.id' => 'id','Disciplinas.descripcion' => 'desc' ])
 		->contain(['Disciplinas','Horarios'])
-		->where(['Clases.profesor_id' => $profesor_id, 'Clases.disciplina_id' => $disciplina_id,'Clases.programa_adolescencia' => $programa])
+		->where(['Clases.operador_id' => $operador_id, 'Clases.disciplina_id' => $disciplina_id,'Clases.programa_adolescencia' => $programa])
 		->order('Horarios.num_dia','Horarios.hora')
 		;
 		$i = 0;
