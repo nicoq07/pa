@@ -1,5 +1,5 @@
 
-<div class="col-lg-5 col-lg-offset-2 well">
+<div class="col-lg-4 col-lg-offset-4	 well">
 	<?=  $this->Form->create($alumno);
 		echo $this->Form->label('mob', ['label' => 'Mes']);
 		echo $this->Form->month('mob', ['empty' => true]);

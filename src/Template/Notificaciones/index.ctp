@@ -23,17 +23,17 @@ function marcarLeido(mensajeId)
 
 </script>
 <?= $this->assign('title', 'Recibidas');?>
-<div class="container-fluid col-lg-8 col-lg-offset-1 panel panel-default">
+<div class="container-fluid col-lg-8 col-lg-offset-2 panel panel-default">
     <div class="row">
         <div class="col-md-12 current-chat">
             <div class="row chat-toolbar-row">
-                <div class="col-sm-12">
+                <div class="col-sm-12" style="background-color: #116d76">
 
                      <div class="btn-group chat-toolbar panel-heading" role="group" aria-label="...">
                        <?php if($current_user['rol_id'] == ADMINISTRADOR): ?>
                         <?=  $this->Html->link(' Nuevo mensaje', ['controller' => 'Notificaciones', 'action' => 'add'],['class' => 'btn btn-default ticket-option fa fa-pencil ']) ?>
                         <?php endif; ?>
-                        <?php if($current_user['rol_id'] !== ADMINISTRADOR): ?>
+                        <?php if($current_user['rol_id'] == PROFESOR): ?>
                         <?=  $this->Html->link(' Nuevo mensaje', ['controller' => 'Notificaciones', 'action' => 'addProfesor'],['class' => 'btn btn-default ticket-option fa fa-pencil ']) ?>
                         <?php endif; ?>
 

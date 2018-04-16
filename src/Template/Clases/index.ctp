@@ -1,21 +1,31 @@
-<div class="col-lg-8 col-lg-offset-1 well">
+<div class="col-lg-8 col-lg-offset-2 well">
     <h3><?= __('Clases') ?></h3>
-    <div class="col-lg-12">
-    	<div class="col-lg-1 col-lg-offset-8">
-    	  <?= $this->Html->link(__('IBA'), ['action' => 'addIba'],['class' => 'btn btn-success']) ?>
+    <?php echo $this->element('filtroAnioActual'); ?>
+    <div class="col-lg-3 col-lg-offset-9">
+    	  <?= $this->Html->link(__('Nueva'), ['action' => 'add'],['class' => 'btn btn-success']) ?>
     </div>
-    <div class="col-lg-1">
-    	  <?= $this->Html->link(__('PA'), ['action' => 'addPrograma'],['class' => 'btn btn-info']) ?>
+    <div class='col-lg-12'>
+     &nbsp;
     </div>
-    &nbsp;
-    </div>
-    
+    <?php echo $this->Form->create('frmBusqueda',['id' => 'frmBusqueda','url' => ['action' => 'index']]);?>
+	    <div class='col-lg-12'>
+	    	<div class='col-lg-4'>
+	    		 <?php echo $this->Form->input('operadores',['type' => 'select', 'empty' => 'Operador/a','onchange' => 'document.getElementById("frmBusqueda").submit(); ']); ?>
+	    	</div>
+	    	<div class='col-lg-4'>
+	    		 <?php echo $this->Form->input('disciplinas',['type' => 'select','empty' => 'Disciplinas','onchange' => 'document.getElementById("frmBusqueda").submit(); ']); ?>
+	    	</div>
+	    	<div class='col-lg-4'>
+	    		 <?php echo $this->Form->input('horarios',['type' => 'select','empty' => 'Horarios','onchange' => 'document.getElementById("frmBusqueda").submit(); ']); ?>
+	    	</div>
+	    </div>
+   	<?php echo $this->Form->end();?>
+   
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('Detalle') ?></th>
+                <th width="60%" scope="col"><?= $this->Paginator->sort('Detalle') ?></th>
                 <th width="10%" scope="col"><?= $this->Paginator->sort('alumno_count',['label' => 'Cant. A']) ?></th>
-                <th width="10%" scope="col"><?= $this->Paginator->sort('programa_adolescencia',['label' => 'Programa']) ?></th>
                 <th width="10%" scope="col"><?= $this->Paginator->sort('active',['label' => 'Activa']) ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -25,7 +35,6 @@
             <tr>
                 <td  ><?= h($clase->presentacion) ?></td>
                 <td  ><?= h($clase->alumno_count) ?></td>
-                <td ><?= $clase->programa_adolescencia ? h("Sí") : h("No") ?></td>
                 <td ><?= $clase->active ? h("Sí") : h("No") ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('Ver'), ['action' => 'view', $clase->id],['class' => 'btn-sm btn-info']) ?>
@@ -38,4 +47,3 @@
     </table>
      <?= $this->element('footer') ?>
 </div>
-

@@ -1,5 +1,5 @@
 
-<div class="examenes col-lg-8 col-lg-offset-1 well">
+<div class="examenes col-lg-8 col-lg-offset-2 well">
 	<div class="row">
 	<div class="col-lg-12">
 		<h3><?= __('Examenes') ?></h3>
@@ -23,7 +23,7 @@
   	  <div class="col-lg-3 "> 
 		 <?php
 			echo $this->Form->label('Búsqueda :');
-            echo $this->Form->control('palabra_clave', ['label' => false,'placeholder' => 'Alumno o Profesor ', 'onchange'=>'document.getElementById("frmIndex").submit()']);
+            echo $this->Form->control('palabra_clave', ['label' => false,'placeholder' => 'Alumno o Operador ', 'onchange'=>'document.getElementById("frmIndex").submit()']);
           ?>
 	 </div>
   	 

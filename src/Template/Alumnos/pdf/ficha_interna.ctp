@@ -2,7 +2,7 @@
 	<table class="tabla-header-ficha-interna">
 		<tr>
 			<td height = "200px" width="300px"><div>
-	    	 	<?php  echo $this->Html->image('logoIba.png', ['class' => 'pull-left' , 'height' => "200" , 'width' => "200",'fullBase' => true]); ?>
+	    	 	<?php  echo $this->Html->image(LOGO, ['class' => 'pull-left' , 'height' => "200" , 'width' => "200",'fullBase' => true]); ?>
 	    		</div>
 	    	</td>
 	    	<td class="td-interna-title"><span class="title"> <?= h($alumno->apellido) ?> <?php echo "</br> </br>" ?> <?= h($alumno->nombre) ?> </span> </td>

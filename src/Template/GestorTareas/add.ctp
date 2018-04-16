@@ -1,9 +1,10 @@
 	&nbsp;
 	<?= $this->assign('title', 'Cargar tarea'); ?>
-<div class="col-lg-5 col-lg-offset-2 well">
+<div class="col-lg-5 col-lg-offset-3 panel panel-info">
+	<div class="col-lg-12 panel-heading"><h3><?= __('Nueva tarea') ?></h3></div>
     <?= $this->Form->create($gestorTarea) ?>
     <fieldset>
-        <legend><?= __('Nueva tarea') ?></legend>
+        
         <?php
             echo $this->Form->control('titulo',['label' => 'Título']);
             echo $this->Form->control('descripcion',['label' => 'Descripción']);

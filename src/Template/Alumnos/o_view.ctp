@@ -1,6 +1,6 @@
-<div class="well col-lg-8" style="padding: 0;">
+<div class="well col-lg-8 col-lg-offset-2 panel panel-info" >
    <div  style="margin-top:10px" class="row">
-	     <div class="col-lg-5">
+	     <div class="col-lg-5 panel-heading">
 	     	<span style="font-size:3.50rem; margin-top:10px"><?= h($alumno->presentacion) ?></span>
 	      </div>
 	    <div class="col-lg-7">
@@ -25,26 +25,24 @@
 	<div class="col-lg-3 col-md-3 borde view-div"><?= __('Activo') ?></div>
 	<div class="col-lg-3 col-md-3 borde"><?=$alumno->active ? __('Sí') : __('No');?> </div>
 	
-    <div class="related separador-ligth">
+    <div class="panel-body">
         <h4> <?= __('Clases inscriptas' ) ?></h4>
         <?php if (!empty($alumno->clases)){ ?>
         <table class="table table-striped">
             <tr>
                 <th width="60%" scope="col"><?= __('Detalle') ?></th>
-                <th scope="col"><?= __('Activa') ?></th>
             </tr>
             <?php foreach ($alumno->clases as $clases): ?>
             <tr>
                
                 <td><?= h($clases->presentacion) ?></td>
-                <td><?= $clases->active ? h("Sí") : h("No") ?></td>
             </tr>
             <?php endforeach; ?>
         </table>
         <?php  }  else { echo h("NO TIENE CLASES ACTIVAS"); }?>
     </div>
     
-     <div class="related separador-ligth">
+     <div class="panel-body">
         <h4><?= __('Seguimientos de Clases' ) ?></h4>
         <?php if (!empty($seguimientos)){ ?>
         <table class="table table-striped">

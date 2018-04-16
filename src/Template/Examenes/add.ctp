@@ -1,7 +1,7 @@
-<div class="examenes col-lg-5 col-lg-offset-2 well">
+<div class="examenes col-lg-6 col-lg-offset-3 well">
 	<div class="row">
 		<div class="col-lg-12">
-				<?= $this->Html->link(__('Ver todos'), ['action' => 'index'],['class' => 'pull-right btn-lg btn-info']) ?>
+				<?= $this->Html->link(__('Ver todos'), ['action' => $index],['class' => 'pull-right btn-lg btn-info']) ?>
 		</div>
 		<div class="col-lg-12">
 		 <h3><?= __('Nuevo Examen') ?></h3>

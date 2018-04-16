@@ -4,8 +4,7 @@
     <fieldset>
         <legend><?= __('Nuevo usuario') ?></legend>
         <?php
-			echo $this->Text->autoParagraph("<b><em> Sí va a crear un usuario para un PROFESOR o un OPERADOR, los campos nombre y apellido no son necesarios.</em></b>");
-            echo $this->Form->control('profesor_id', ['options' => $profesores,'id' => 'profesor_id' ,'empty' => true, 'onchange' => "$('#operador_id').attr('disabled',true)"]);
+			echo $this->Text->autoParagraph("<b><em> Sí va a crear un usuario para un OPERADOR, los campos nombre y apellido no son necesarios.</em></b>");
             echo $this->Form->control('operador_id', ['options' => $operadores,'id' => 'operador_id','empty' => true,'onchange' => "$('#profesor_id').attr('disabled',true)"]);
             echo $this->Form->control('nombre');
             echo $this->Form->control('apellido');

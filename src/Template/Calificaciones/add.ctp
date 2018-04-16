@@ -1,4 +1,4 @@
-<div class="col-lg-5 col-lg-offset-2 panel">
+<div class="col-lg-6 col-lg-offset-3 panel">
     <?= $this->Form->create($calificacione) ?>
     <fieldset>
         <legend><?= __('Nueva calificación') ?></legend>

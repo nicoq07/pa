@@ -1,5 +1,5 @@
-<div class="col-lg-9 col-lg-offset-1 well well-sm">
-    <h3><?= __('Operadores') ?></h3>
+<div class="col-lg-12  panel panel-info">
+    <div class="panel-heading"><h3><?= __('Operadores') ?></h3></div>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -10,8 +10,8 @@
                 <th scope="col"><?= $this->Paginator->sort('cuit',['label'=>'CUIT']) ?></th>
                 <th scope="col"><?= $this->Paginator->sort('telefono',['label'=>'Tel. Fijo']) ?></th>
                 <th scope="col"><?= $this->Paginator->sort('celular') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('active',['label'=>'Activo']) ?></th>
-                <th width="15%" scope="col" class="actions"><?= __('Acciones') ?></th>
+                <th width="5%"scope="col"><?= $this->Paginator->sort('active',['label'=>'Activo']) ?></th>
+                <th width="12%" scope="col" class="actions"><?= __('Acciones') ?></th>
             </tr>
         </thead>
         <tbody>
@@ -39,5 +39,3 @@
  </div>
  
    
-
-  

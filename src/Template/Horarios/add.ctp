@@ -1,7 +1,7 @@
-<div class="col-lg-6 col-lg-offset-2 well">
+<div class="col-lg-6 col-lg-offset-3 well">
     <?= $this->Form->create($horario) ?>
     <fieldset>
-         <legend><?= __('Nueva horario') ?></legend>
+         <legend><?= __('Nuevo horario') ?></legend>
 	        <?php
 	            echo $this->Form->control('ciclolectivo_id', ['label' => 'Ciclo lectivo',  'options' => $ciclolectivo]);
 	            echo $this->Form->control('nombre_dia',['label' => 'Día','options' => $dias, 'value' => $dias ,'empty' => false]);

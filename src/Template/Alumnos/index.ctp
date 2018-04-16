@@ -1,6 +1,6 @@
-<div class="col-lg-10 panel">
+<div class="col-lg-12 panel">
 
-	<div class = "col-lg-12 container">
+	<div class = "col-lg-12 panel-heading">
     	<h3><?= __('Alumnos') ?></h3>
 	</div>
 	<?php 
@@ -34,7 +34,7 @@
             echo $this->Form->checkbox('futuro', ['label' => false, 'onchange'=>'document.getElementById("frmIndex").submit()']);
           ?>
 		 </div>
-		<div class ="col-lg-6">
+		<div class ="col-lg-3">
 		 <?php
 			echo $this->Form->label('Búsqueda :');
 			echo $this->Form->control('palabra_clave', ['value' => $search_key,  'label' => false,'placeholder' => 'Nombre, Apellido ó DNI ', 'onchange'=>'document.getElementById("frmIndex").submit()']);
@@ -78,6 +78,9 @@
         </tbody>
     </table>
     </div>
-     <?= $this->element('footer') ?>
+    <div class="panel">
+    	<?= $this->element('footer') ?>
+    </div>
+     
 </div>
 

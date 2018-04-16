@@ -57,7 +57,7 @@ else
 }
 
 ?>
-<div class="col-lg-8 col-lg-offset-1 panel panel-sm">
+<div class="col-lg-8 col-lg-offset-2 panel panel-sm">
 <div class="row">
 	<div class='col-lg-6'><h2>Lista de Tareas</h2></div>
 	<div style="margin-top:15px;" class="col-lg-4"><?php echo $this->Html->Link($ver,['action' => $action],['class' => 'btn-lg btn-info'] ) ?></div>

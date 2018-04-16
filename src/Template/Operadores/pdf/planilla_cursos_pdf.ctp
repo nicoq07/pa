@@ -37,7 +37,7 @@
 					$numDia++;
 				}
 			}
-			$tamanio = (30/$numDia);
+			if ($numDia > 0) {$tamanio = (30/$numDia);} else { $tamanio=30;}
 			$flag = false;
 			?>
 			

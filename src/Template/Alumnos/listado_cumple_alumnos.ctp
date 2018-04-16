@@ -1,14 +1,14 @@
 
-<div class="table-responsive col-lg-8 col-lg-offset-1 well well-sm"> 
+<div class="table-responsive col-lg-8 col-lg-offset-2 well well-sm"> 
 <h3><?php echo h("Cumpleaños del mes de $month")?></h3>
     <table class="table table-bordered">
 	<thead>
 		<tr>
-			<th width="30%"><?php echo ("Nombre");?></th>
+			<th width="20%"><?php echo ("Nombre");?></th>
 			<th width="10%"><?php echo ("Día");?></th>
-			<th width="20%"><?php echo ("Correo");?></th>
-			<th width="20%"><?php echo ("Correo madre");?></th>
-			<th width="20%"><?php echo ("Correo padre");?></th>
+			<th width="23%"><?php echo ("Correo");?></th>
+			<th width="23%"><?php echo ("Correo madre");?></th>
+			<th width="23%"><?php echo ("Correo padre");?></th>
 		</tr>
 	</thead>
 <tbody>

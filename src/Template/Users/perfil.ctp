@@ -31,13 +31,13 @@
 	            <tr>
 	                <th scope="col"><?= __('Disciplina') ?></th>
 	                <th scope="col"><?= __('Dia y hora ') ?></th>
-	                <th scope="col"><?= __('Profesor') ?></th>
+	                <th scope="col"><?= __('Operador') ?></th>
 	            </tr>
 	     <?php foreach ($clasesD as $c){?>
 	            <tr>
 	           		<td><?= h($c['disci']) ?></td>
 	           		<td><?= h(__($c['nom_dia']) ." " . date("H:i",strtotime($c['hora'] ))) ?></td>
-	           		<td><?= h($c['profesor'] ) ?></td>
+	           		<td><?= h($c['operador'] ) ?></td>
 	            </tr>
 	            <?php }?>
 	        </table>

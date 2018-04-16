@@ -26,7 +26,7 @@ $description = 'Iba Escuela ' .date("Y");
     </title>
      
     <?= $this->Html->meta('icon') ?>
-    <?= $this->Html->css(['bootstrap.min', 'base.css', 'font-awesome.min', 'login' ,'menulateral' , 'varios','css-loader','chat','cards','noTables']) ?>
+    <?= $this->Html->css(['bootstrap.min', 'base.css', 'font-awesome.min', 'login' ,'menulateral' , 'varios','css-loader','chat','cards','noTables','top-nav-bar']) ?>
     <?= $this->Html->css('cake.css') ?>
     <?= $this->Html->script(['jquery-3.1.1.min','bootstrap','varios','ajaxAlumnos']) ?>
 
@@ -55,46 +55,23 @@ $description = 'Iba Escuela ' .date("Y");
 </head>
 <body>
  <?php if (!empty($current_user)) : ?>
-    <nav class="top-bar expanded" data-topbar role="navigation">
-     
-     	<div class="col-lg-2 nopadding title-area">
-	        <ul class="">
-	            <li class="name">
-	                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
-	            </li>
-	         </ul>
-         </div>
-         <div  class="col-lg-2 col-lg-offset-8" >
+    
+         <?php if (!empty($current_user) && $current_user['rol_id'] === ADMINISTRADOR) : ?>
+          	 <?= $this->element('menuAdminTopBar');?>
+         <?php elseif (!empty($current_user) && $current_user['rol_id'] === PROFESOR) : ?>
+         	<?= $this->element('menuProfeTopBar') ?>
+         <?php endif; ?>
         
-				<ul class="nav navbar-nav navbar-right">
-					<li>
-						<a style="color: white; background-color:#01545B;" href="#" class="dropdown-toggle" data-toggle="dropdown"><?php if (!empty($current_user)) : print $current_user['nombre'] ; endif;?> <b class="caret"></b></a>
-	                        <ul class="dropdown-menu forAnimate">
-	                        	<?php if (!empty($current_user) && $current_user['rol_id'] === ADMINISTRADOR) : ?>
-	                        		<li><?= $this->Html->link(h('Parámetros'), ['controller' =>'Parametros', 'action' => 'index']) ?></li>							
-	                        	<?php endif; ?>
-	                        	<li><?= $this->Html->link(h('Cambiar fondo'), ['controller' =>'Users', 'action' => 'cargarFondo']) ?></li>	
-								<li><?= $this->Html->link(h('Cambiar password'), ['controller' =>'Users', 'action' => 'cambiarPassword',$current_user['id']]) ?></li>								<li><?= $this->Html->link('Novedades '. __('<i class="glyphicon glyphicon-info-sign"></i>'), ['controller' =>'Users', 'action' => 'novedades'],['escape' => false,]) ?></li>							
-	                            <li><?= $this->Html->link(h('Salir'), ['controller' =>'Users', 'action' => 'logout']) ?></li>
-							</ul>
-					</li>
-			</ul>
-			</div>
-        <?php endif;?>
+     
+   <?php endif;?>
    
          
-    </nav>
+    
     <?= $this->Flash->render() ?>
 	<div class='image' ></div>
     <div class ="flex-container" >
      	<div  class="col-lg-12 nopadding">
-     	<?php if (!empty($current_user) && $current_user['rol_id'] === ADMINISTRADOR) : ?>
-          	<?= $this->element('menuadmin') ?>
-         <?php elseif (!empty($current_user) && $current_user['rol_id'] === PROFESOR) : ?>
-         	<?= $this->element('menuprofesor') ?>
-         <?php elseif (!empty($current_user) && $current_user['rol_id'] === OPERADOR) : ?>
-         	<?= $this->element('menuoperador') ?>
-         <?php endif; ?>
+     	
            	 <?= $this->fetch('content') ?>
         </div>
     </div>
