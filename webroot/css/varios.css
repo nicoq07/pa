@@ -1,0 +1,43 @@
+.separador
+{
+	margin: 10px 0px 10px 0px;
+	border:3px solid;
+	color:#00747e;
+}
+
+.separador-ligth
+{
+	border:2px solid;
+	color:#00747e;
+}
+
+.view-div
+{
+	border: medium none;
+    color: #1798a5;
+    text-align: left;
+    font-family: "Helvetica Neue",Helvetica,Roboto,Arial,sans-serif;
+   	font-weight: bold;
+   	
+}
+
+.borde
+{
+	margin: 5px 0px 5px 0px;
+	border-width: 0.5px;
+	border-bottom-color: grey;
+	border-bottom-style: solid;
+}
+
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+    
+ body{
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+}

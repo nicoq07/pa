@@ -1,0 +1,29 @@
+-- phpMyAdmin SQL Dump
+-- version 4.6.5.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: localhost:3306
+-- Tiempo de generación: 05-09-2017 a las 02:29:34
+-- Versión del servidor: 5.6.34
+-- Versión de PHP: 7.1.0
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Base de datos: `sibadb`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `view_clases`
+--
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_clases`  AS  select `h`.`nombre_dia` AS `nom_dia`,`h`.`hora` AS `hora`,`c`.`id` AS `clase_id`,`h`.`num_dia` AS `dia`,`d`.`descripcion` AS `disci`,`p`.`id` AS `profesor_id`,concat_ws(' ',`p`.`nombre`,`p`.`apellido`) AS `profesor`,count(`ca`.`id`) AS `cantAlu` from ((((`clases` `c` join `horarios` `h` on((`c`.`horario_id` = `h`.`id`))) join `profesores` `p` on((`c`.`profesor_id` = `p`.`id`))) join `disciplinas` `d` on((`c`.`disciplina_id` = `d`.`id`))) left join `clases_alumnos` `ca` on((`c`.`id` = `ca`.`clase_id`))) where (`c`.`active` = 1) group by `c`.`id` order by `h`.`num_dia`,`h`.`hora` ;
+
+--
+-- VIEW  `view_clases`
+-- Datos: Ninguna
+--
+

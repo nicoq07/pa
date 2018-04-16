@@ -1,0 +1,509 @@
+.general
+{
+	/* border : 3px;
+	border-style: solid; */
+	width: 19 cm;
+	height: 23.65cm;
+    margin-bottom: 0.5cm;
+    padding: 0;
+	 
+}
+.troquel
+{
+	float:left;
+	display:inline-table;
+	border : 3px;
+	border-style: solid;
+	border-right-style: dotted;
+	width: 15%;
+	height: 23.45cm;
+	margin-right: 2cm;
+}
+
+.fila-troquel-chica
+{
+	display: table; 
+	border : 0.5px;
+	border-bottom-style: solid;
+	width: 100%;
+	height: 4cm;
+}
+.fila-troquel
+{
+	display: table; 
+	border : 0.5px;
+	border-bottom-style: solid;
+	width: 100%;
+	height: 6.13cm;
+}
+
+
+.fila-troquel-ultima
+{
+	display: table; 
+	width: 100%;
+	height: 4.60cm;
+}
+.texto-troquel-fecha
+{
+	text-align:center; 
+    vertical-align: middle;
+    display: table-cell;  
+	font-size: 2rem;
+	
+}
+.texto-troquel-codigo
+{
+	text-align:center; 
+	font-size: 1.8rem;	
+}
+
+.texto-troquel-nomyape
+{
+	margin : 0;
+	padding: 0;
+	text-align:center; 
+	font-size: 180%;	
+}
+
+
+.factura
+{
+	
+	float:left;
+	width: 79%;
+	height: 23.45cm;
+	border : 2px;
+	 border-style: solid;
+}
+	
+.container-titulo
+{
+	margin: 0;
+	float: left;
+	border : 0.5px;
+	border-style:solid;
+	width:79%;
+	height: 265px;
+	border :1px;
+	border-bottom-style: solid;
+}
+
+.titulo
+{
+	height: 102px;
+	border : 1px;
+	border-bottom-style: solid;
+}
+
+.texto-titulo
+{
+	margin: 0;
+	text-align:center; 
+	font-size: 4rem;	
+	
+}
+
+.logo
+{	
+	width: 20.649%;
+	height: 265px;
+	right: 0px;
+    top: 0px;
+	float: left;
+	text-align:center;
+	border :1px;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	
+}
+
+.descripcionIba
+{
+	border :0px;
+	border-bottom-style: solid;
+}
+
+.texto-descripcionIba
+{
+	margin: 0;
+	text-align:center; 
+	font-size: 2rem;	
+}
+.descripcion-alumno-curso
+{
+	margin: 0;
+	float: left;
+	border : 1px;
+	border-style:solid;
+	border-top-style: none;
+	 border-right-style: none;
+	  border-left-style: none;
+	width:100%;
+	height: 130px;	
+}
+
+.alumno
+{
+	margin: 0;
+	border : 1px;
+	border-bottom-style: solid;
+	border-left-style: none;
+   border-right-style: none;
+	height: 50%;
+}
+
+.texto-alumno
+{
+	margin: 0 0 0 10px;
+	text-align:left; 
+	font-size: 1.7rem;	
+}
+
+.curso
+{
+	margin: 0;
+	height: 50%;
+	border: 1px;
+  border: 1px;
+	border-left-style: none;
+ 	border-right-style: none;
+}
+.container-conceptos
+{
+	float: left;
+	margin: 0;
+	width:100%;
+	height: 602px;
+	border :0px;
+	border-style: solid;
+	border-left-style: none;
+	border-bottom-style: solid;
+}
+
+.titulo-conceptos
+{
+	float: left;
+	margin: 0;
+	width: 100%;
+	height: 61px;
+	border : 1px;
+	border-bottom-style: solid;
+	border-left-style: none;
+}
+.conceptos
+{
+	position: relative;
+	float: left;
+	margin: 0;
+	width: 85%;
+	height: 12.9cm;
+	border :0px;
+	border-bottom-style: solid;
+}
+
+.concepto
+{
+	float: left;
+	margin: 0;
+	width: 100%;
+	height: 61px;
+	border : 1px;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-right-style: none;
+	
+}
+
+.texto-concepto
+{
+	margin: 0 0 0 10px;
+	text-align:left; 
+	font-size: 2rem;	
+}
+
+.montos
+{
+	margin : 0;
+	border: 1px;
+	border-bottom-style: none;
+	border-top-style: none;
+	border-right-style: none;
+	border-left-style: solid;
+	float: left;
+	margin: 0;
+	width: 14.9%;
+	height: 12.9cm;
+	position: relative;
+}
+
+.descripcion-total
+{
+	border : 1px;
+	border-left-style: none;
+	border-bottom-style: solid;
+	height: 61px;
+}
+
+.informacion
+{
+	border: 1px;
+	border-top-style: solid;
+	float: left;
+	margin: 0;
+	width: 100%;
+	height: 111px;
+	position: absolute;
+	bottom: 0;
+    left: 0;
+}
+
+.texto-informacion
+{
+	margin-left: 10px;
+	text-align:left; 
+	font-size: 1.1rem;
+}
+
+/*     style para listado de cursos en profesores   */
+
+
+.div-fragmento-dia
+{
+	width: 1000px;
+	height: 100%;
+	float: left;
+	font-size: 40px!important;
+}
+.dia
+{
+	float: left;
+	border-radius: 3px;
+	/*border: 5px #006f77 solid;*/
+	margin-top: 1cm;
+	width: 950px;
+}
+
+.text-dia-horaio
+{
+	text-align: center;
+	font-size: 2rem;
+	border: 0;
+	
+	
+}
+
+.div-dia-horario
+{
+	width: 100%;
+	height: 50px;
+	float: left;
+	
+}
+.div-fila
+{
+	border: 1px black solid;
+	width: 100%;
+	float: left;
+}
+.div-texto-cabeza-alumno
+{
+	margin: 0;
+	padding: 0;
+	width: 70%;
+	float: left;
+}
+.div-dia-cabeza
+{
+	border: 1px grey dotted;
+	height:  auto;
+	float: left;
+	
+}
+.div-dia
+{
+	border: 1px grey dotted;
+	height:  auto;
+	float: left;
+	height: 30px; 
+}
+.p-nom-dia
+{
+	margin:0;
+	padding:0;
+	text-align:center;
+	color: black;
+	font-size: 25px;
+}
+.p-nom-hora
+{
+	margin:0;
+	padding:0;
+	text-align:left;
+	color: black;
+	font-size: 25px;
+}
+
+.p-num-dia
+{
+	margin:0;
+	padding:0;
+	text-align:center;
+	font-size: 15px;
+	
+}
+.p-alumno
+{
+	font-size: 20px;
+	margin:0;
+	padding:0;
+	text-align:left;
+	 margin-left: 3px;
+}
+
+
+/* FICHA INTERNA ALUMNO       */
+.td-interna-title
+{
+	text-align:center;
+}
+.title
+{
+	font-size: 3rem;
+}
+.td-interna-general
+{
+	font-size:2.2rem;
+}
+
+.header-ficha-externa
+{
+	width: 100%;
+	float: left;
+	border: 1px black;
+	border-bottom-style: solid;
+}
+.div-logo-externa
+{
+	text-align : center;
+	float: left;
+	width: 100%;
+}
+.div-alumno-externa
+{
+	float: left;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+.div-iba-ext
+{
+	border: 1px solid;
+	height: auto;
+	float: left;
+	width: 100%;
+	text-align: center;
+	position: relative;
+}
+.div-footer
+{
+	text-align: center;
+	width:100%;
+	float:left;
+	position: absolute;
+	bottom: 0;
+}
+
+/* EXAMEN */
+.A5
+{
+	width: 870px;
+	height: 600px;
+	padding: 0;
+	margin: 0;
+	border: 1px black solid;
+}
+
+.div-cabecera-examen
+{
+	width: 100%;
+	height: 300px;
+	padding: 0;
+	margin: 0;
+	float: left;
+	
+}
+.div-titulo-examen
+{
+	width: 50%;
+	height: 40px;
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+.div-infoiba-examen
+{
+	width: 100%;
+	height: 260px;
+	padding: 0;
+	margin: 0;
+	float: left;
+	text-align: center;
+}
+.texto-negrita
+{
+	font-size: large;
+	font-weight: bold;
+	margin : 2px;
+	font-size: 1.5rem;
+}
+.texto-infoiba-examen
+{
+	font-size: 1.2rem;
+	margin:0;
+	padding:0
+}
+.div-calificacion-examen
+{
+	width: 100%;
+	height: 220px;
+	padding: 0;
+	margin: 0;
+	float: left;
+	text-align: center;
+}
+.div-pie-examen
+{
+	width: 100%;
+	height: 300px;
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+.div-alumno-examen
+{
+	width: 100%;
+	height: 40px;
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+.div-puntos-examen
+{
+	width: 33%;
+	height: 220px;
+	padding: 0;
+	margin: 0;
+	float: left;
+	position: relative;
+	
+}
+
+.texto-puntos-examen
+{
+	font-family:cursive;
+	font-size: 1.1rem;
+	border-bottom: 1px;
+	border-radius:5px;
+	border-bottom-style: solid;
+}

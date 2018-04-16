@@ -1,0 +1,9 @@
+Versión 2.0
+Módulo exámenes.
+Listado de Cumplaeaños (sin pdf).
+Fondo de escritorio para cada usuario.
+Clases para Programa Adolescencia.
+Seguimientos para Programa Adolescencia.
+Operadores para Programa Adolescencia.
+Notificaciones para Operadores.
+Mejoras en los Filtros de Seguimientos.
