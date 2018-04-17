@@ -7,13 +7,13 @@
  function getDiaHorario()
  {
  	
- 	var idDisciplina = $( "#disciplinas" ).val();
- 	var profesor_id = $( "#operadores" ).val();
+ 	var disciplina_id = $( "#disciplinas" ).val();
+ 	var operador_id = $( "#operadores" ).val();
  	 $.ajax({
         url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'Alumnos','action'=>'getDiaHorario'));?>",
 
  	        type: "get",
- 	        data: {profesor_id:profesor_id,idDisciplina:idDisciplina },
+ 	        data: {operador_id:operador_id,disciplina_id:disciplina_id },
  	        success: function(data) {
  	        	var array = data.split('.');
  	        	var sel = $('#clases');
@@ -36,11 +36,11 @@
  function buscarDisciplinas()
  {
  	
- 	var profesor_id = $( "#operadores" ).val();
+ 	var operador_id = $( "#operadores" ).val();
      $.ajax({
         url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'Alumnos','action'=>'getDisciplinas'));?>",
          type: "get",
-         data: {profesor_id:profesor_id},
+         data: {operador_id:operador_id},
          success: function(data) {
          	var array = data.split('.');
        		var sel = $('#disciplinas');
@@ -201,18 +201,6 @@
 	         echo $this->Form->control('observacion',['label' => 'Observación']);
 			 ?>
 			 </div>
-			  <div class="col-lg-4"> 
-			 
-	         <?php
-	         echo $this->Form->control('futuro_alumno');
-			 ?>
-	         </div>  
-	         
-	         <div class="col-lg-4"> 
-	         <?php
-	         echo $this->Form->control('programa_adolecencia',['label' => 'Adolescencia']);
-			 ?>
-	         </div> 
 	         <div class="col-lg-4"> 
 	         <?php
 	         echo $this->Form->control('active',['label' => 'Activo']);

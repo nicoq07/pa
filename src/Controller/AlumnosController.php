@@ -437,48 +437,6 @@ class AlumnosController extends AppController
     	$this->set(compact('alumnos'));
     }
     
-    public function oView($id = null)
-    {
-    	$idOperador = $this->Auth->user('operador_id');
-    	$clasesTable= TableRegistry::get('Clases');
-    	$clases = $clasesTable->find()
-    	->select('Clases.id')
-    	->matching('Alumnos', function ($q) use ($id) {
-    		return $q->where(['ClasesAlumnos.active' => true, 'ClasesAlumnos.alumno_id' => $id]);
-    	})
-    	->where(['Clases.operador_id' => $idOperador])
-    	->toArray();
-    	$ids = null;
-    	(count($clases) > 0) ? $ids = array() : $ids = -1 ;
-    	foreach ($clases as $c)
-    	{
-    		$ids[] = $c['id'];
-    	}
-    	if (empty($ids))
-    	{
-    		$where = ['Clases.id IN ' => -1];
-    	}
-    	else
-    	{
-    		$where = ['Clases.id IN ' => $ids];
-    	}
-    	
-    	$segTable= TableRegistry::get('SeguimientosClasesAlumnos');
-    	$seguimientos = $segTable->find()
-    	->orderDesc('fecha')
-    	->where(['fecha <='=>  date('Y-m-d h:m',time())])
-    	->matching('ClasesAlumnos', function ($q) use ($ids,$id) {
-    		return $q->where(['ClasesAlumnos.clase_id IN' => $ids, 'ClasesAlumnos.alumno_id' => $id]);
-    	})
-    	->toArray();
-    	
-		
-    	
-    	$alumno = $this->Alumnos->get($id, [
-    			'contain' => ['Clases' => [ 'conditions' => $where]  ]  ]);
-    	
-    	$this->set(['alumno','clases','seguimientos'],[$alumno,$clases,$seguimientos]);
-    }
     
     public function oView($id = null)
     {
@@ -757,8 +715,8 @@ class AlumnosController extends AppController
 		$ClasesAlumno = TableRegistry::get('ClasesAlumnos');
 		
 		//Recorro los ids de clases que voy a necesitar para crear los seguimientos
-// 		foreach ($idsClases as  $pos => $idClase)
-// 		{
+ 		foreach ($idsClases as  $pos => $idClase)
+ 		{
 			
 			//Busco en la base el ID de ClasesAlumnos con id Id de Clase y el ID de Alumno
 			$idClaseAlumno = $ClasesAlumno->find('all')
@@ -809,7 +767,7 @@ class AlumnosController extends AppController
 					}
 				}
 			}
-// 		} //fin foreach de IDSclases
+ 		} //fin foreach de IDSclases
 		return true;
 	}
 	
@@ -821,12 +779,11 @@ class AlumnosController extends AppController
 	public function getDisciplinas() {
 		$this->autoRender = false; // We don't render a view in this example
 		$operador_id = $this->request->getQuery('operador_id');
-		$programa = $this->request->getQuery('programa');
 		$discs = TableRegistry::get('Disciplinas')->find('all')
 	//	->select(['Disciplinas.id' => 'id','Disciplinas.descripcion' => 'desc' ])
 		->distinct('Disciplinas.descripcion')
 		->matching('Clases')
-		->where(['Clases.operador_id' => $operador_id,'Clases.programa_adolescencia' => $programa])
+		->where(['Clases.operador_id' => $operador_id])
 		->order('Disciplinas.descripcion')
 		;
 		$i = 0;
@@ -847,13 +804,11 @@ class AlumnosController extends AppController
 	public function getDiaHorario() 
 	{
 		$this->autoRender = false; // We don't render a view in this example
-		$disciplina_id = $this->request->getQuery('idDisciplina');
+		$disciplina_id = $this->request->getQuery('disciplina_id');
 		$operador_id= $this->request->getQuery('operador_id');
-		$programa = $this->request->getQuery('programa');
 		$clases = TableRegistry::get('Clases')->find('all')
-		//	->select(['Disciplinas.id' => 'id','Disciplinas.descripcion' => 'desc' ])
 		->contain(['Disciplinas','Horarios'])
-		->where(['Clases.operador_id' => $operador_id, 'Clases.disciplina_id' => $disciplina_id,'Clases.programa_adolescencia' => $programa])
+		->where(['Clases.operador_id' => $operador_id, 'Clases.disciplina_id' => $disciplina_id])
 		->order('Horarios.num_dia','Horarios.hora')
 		;
 		$i = 0;
@@ -875,131 +830,6 @@ class AlumnosController extends AppController
 		exit;
 	}
 	
-	public function ajaxEnviarMails()
-	{
-		$this->autoRender = false;
-		$parametro = TableRegistry::get("Parametros")->find('all')
-		->where(['nombre' => ENVIAR_MAIL_AUTOMATICAMENTE]);
-		if ($parametro->first()->get('valor'))
-		{
-			$historialHoy = TableRegistry::get('HistorialMails')->find('all')->where(['dia' => date('Y-m-d')]);
-			if ($historialHoy->count() == 0)
-			{
-				$return = null;
-				$dia = date('d');
-				$mes = date('m');
-				$alumnos = $this->Alumnos->find('all')
-				->where(['DAY(fecha_nacimiento)' => "$dia", 'MONTH(fecha_nacimiento)' => "$mes",'active' => true ])
-				->orderAsc('nombre')
-				->toArray();
-				
-				$cantMailEnviados = 0;
-				$cantMailNoEnviados = 0;
-				
-				foreach ($alumnos as $alumno)
-				{
-					if (filter_var($alumno->email, FILTER_VALIDATE_EMAIL))
-					{
-						$nombre = $alumno->nombre;
-						$email = new Email('iba');
-						$email
-						->setEmailFormat('html')
-						->setTo($alumno->email)
-						->setSubject("Felíz cumpleaños $nombre!!!")
-						->setLayout('default')
-						->setTemplate('cumple')
-						
-						->setAttachments([
-								'cumple.png' => [
-										'file' => WWW_ROOT.'img'.DS.'cumple.png',
-										'mimetype' => 'image/png',
-										'contentId' => '4422'
-								]
-						])
-						->setViewVars(['cid' => 4422]);
-						if ($email->send(''))
-						{
-							$cantMailEnviados++;
-						}
-					}
-					elseif(filter_var($alumno->email_madre, FILTER_VALIDATE_EMAIL))
-					{
-						$nombre = $alumno->nombre;
-						$email = new Email('iba');
-						$email
-						->setEmailFormat('html')
-						->setTo($alumno->email_madre)
-						->setSubject("Felíz cumpleaños $nombre!!!")
-						->setLayout('default')
-						->setTemplate('cumple')
-						
-						->setAttachments([
-								'cumple.png' => [
-										'file' => WWW_ROOT.'img'.DS.'cumple.png',
-										'mimetype' => 'image/png',
-										'contentId' => '4422'
-								]
-						])
-						->setViewVars(['cid' => 4422]);
-						if ($email->send(''))
-						{
-							$cantMailEnviados++;
-						}
-					}
-					elseif(filter_var($alumno->email_padre, FILTER_VALIDATE_EMAIL))
-					{
-						$nombre = $alumno->nombre;
-						$email = new Email('iba');
-						$email
-						->setEmailFormat('html')
-						->setTo($alumno->email_padre)
-						->setSubject("Felíz cumpleaños $nombre!!!")
-						->setLayout('default')
-						->setTemplate('cumple')
-						
-						->setAttachments([
-								'cumple.png' => [
-										'file' => WWW_ROOT.'img'.DS.'cumple.png',
-										'mimetype' => 'image/png',
-										'contentId' => '4422'
-								]
-						])
-						->setViewVars(['cid' => 4422]);
-						if ($email->send(''))
-						{
-							$cantMailEnviados++;
-						}
-					}
-					else {
-						$cantMailNoEnviados++;
-						$return .=' Por favor revise el mail de '. $alumno->presentacion.'  ';
-					}
-				}
-				
-				if ($cantMailEnviados > 0)
-				{
-					$historial = TableRegistry::get('HistorialMails')->newEntity();
-					$historial->set([
-							'dia' => date('Y-m-d'),
-							'enviado' => true,
-							'cantidad' => $cantMailEnviados
-					]);
-					if (!TableRegistry::get('HistorialMails')->save($historial))
-					{
-						$return = 'No se puedo guardar el historial de mails!';
-					}
-				}
-				$return = "Se enviaron $cantMailEnviados mails. No pudieron enviarse $cantMailNoEnviados";
-				echo $return;
-				exit;
-			}
-			else
-			{
-				echo "Ya se enviaron los mails de Saludos!";
-				exit;
-			}
-		}
-	}
 	
 	
 }
