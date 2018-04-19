@@ -38,12 +38,24 @@
 	          <!--  FIN SECCION ALUMNOS-->
 	          <!--          SECCION Operadores-->
 	      <li class="dropdown">
-	          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Operadores <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Personal <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
 	          <ul class="dropdown-menu forAnimate" role="menu">
-	            <li><?= $this->Html->link(h('Alta'), ['controller' =>'Operadores', 'action' => 'add']) ?></li>
-	            <li><?= $this->Html->link(h('Ver todos'), ['controller' =>'Operadores', 'action' => 'index']) ?></li>
-	            <li><?= $this->Html->link(h('Planillas'), ['controller' =>'Operadores', 'action' => 'planillas']) ?></li>
-	            <li><?= $this->Html->link(h('Clases libres'), ['controller' =>'Operadores', 'action' => 'clasesLibres']) ?></li>
+	       		 <li class="dropdown-submenu pull-left"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Operadores</a>
+				          <ul class="dropdown-menu forAnimate">
+				            <li><?= $this->Html->link(h('Alta'), ['controller' =>'Operadores', 'action' => 'add']) ?></li>
+            	            <li><?= $this->Html->link(h('Ver todos'), ['controller' =>'Operadores', 'action' => 'index']) ?></li>
+            	            <li><?= $this->Html->link(h('Planillas'), ['controller' =>'Operadores', 'action' => 'planillas']) ?></li>
+            	            <li><?= $this->Html->link(h('Clases libres'), ['controller' =>'Operadores', 'action' => 'clasesLibres']) ?></li>
+        	          	</ul>
+				  </li>	
+				  <li class="dropdown-submenu pull-left"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profesores</a>
+				          <ul class="dropdown-menu forAnimate">
+				            <li><?= $this->Html->link(h('Alta'), ['controller' =>'Profesores', 'action' => 'add']) ?></li>
+            	            <li><?= $this->Html->link(h('Ver todos'), ['controller' =>'Profesores', 'action' => 'index']) ?></li>
+            	            <li><?= $this->Html->link(h('Planillas'), ['controller' =>'Profesores', 'action' => 'planillas']) ?></li>
+            	            <li><?= $this->Html->link(h('Clases libres'), ['controller' =>'Profesores', 'action' => 'clasesLibres']) ?></li>
+        	          	</ul>
+				  </li>	
 	          </ul>
 	        </li>
 	           <!--  FIN SECCION Operadores-->

@@ -41,14 +41,6 @@ class AlumnosTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->hasMany('PagosAlumnos', [
-            'foreignKey' => 'alumno_id',
-        		'dependent' => true,
-        		'cascadeCallbacks' => true,
-        ]);
-//         $this->hasMany('ClasesAlumnos', [
-//         		'foreignKey' => 'alumno_id'
-//         ]);
         $this->belongsToMany('Clases', [
             'foreignKey' => 'alumno_id',
             'targetForeignKey' => 'clase_id',
@@ -100,7 +92,7 @@ class AlumnosTable extends Table
             ->allowEmpty('celular');
 
         $validator
-            ->allowEmpty('nro_documento');
+            ->requirePresence('nro_documento',true,'Requerido para identificar al alumno.');
 
         $validator
             ->email('email')
@@ -108,11 +100,6 @@ class AlumnosTable extends Table
 
         $validator
             ->allowEmpty('observacion');
-
-        $validator
-            ->boolean('programa_adolecencia')
-            ->requirePresence('programa_adolecencia', 'create')
-            ->notEmpty('programa_adolecencia');
 
         $validator
             ->allowEmpty('colegio');
@@ -134,19 +121,6 @@ class AlumnosTable extends Table
 
         $validator
             ->allowEmpty('celular_madre');
-
-        $validator
-            ->decimal('monto_arancel')
-            ->allowEmpty('monto_arancel');
-
-        $validator
-            ->decimal('monto_materiales')
-            ->allowEmpty('monto_materiales');
-
-        $validator
-            ->boolean('futuro_alumno')
-            ->requirePresence('futuro_alumno', 'create')
-            ->notEmpty('futuro_alumno');
 
         $validator
             ->boolean('active')

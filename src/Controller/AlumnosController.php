@@ -179,7 +179,6 @@ class AlumnosController extends AppController
         $alumno = $this->Alumnos->newEntity();
         if ($this->request->is('post')) 
         {
-        	debug($this->request->getData()); exit;
 		$tieneClases = false;
         	if (!empty($this->request->getData("clases")) &&  $this->request->getData("clases")[0] != '')
         	{
@@ -218,7 +217,7 @@ class AlumnosController extends AppController
 	             $difference = date_diff(date_create($alumno->fecha_nacimiento->format('Y-m-d')), date_create($today));
 	             $alumno->set('edad',$difference->format('%y'));
              }
-             /* */
+             debug($alumno);die;
             	if ($this->Alumnos->save($alumno)) 
             	{
             		if ($tieneClases)

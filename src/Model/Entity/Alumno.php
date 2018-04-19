@@ -23,7 +23,6 @@ use App\Model\Table\AlumnosTable;
  * @property string $nro_documento
  * @property string $email
  * @property string $observacion
- * @property bool $programa_adolecencia
  * @property string $colegio
  * @property string $nombre_madre
  * @property string $nombre_padre
@@ -35,7 +34,6 @@ use App\Model\Table\AlumnosTable;
  * @property float $monto_materiales
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
- * @property bool $futuro_alumno
  * @property bool $active
  * @property string $referencia_foto
  *
