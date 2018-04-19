@@ -63,26 +63,6 @@ class Alumno extends Entity
     	return $nomyape;
     }
     
-    public function pagoElMes($mes)
-    {
-    	/*
-    	 * select * from alumnos WHERE alumnos.id in (select pa.alumno_id from pagos_alumnos as pa
-            where pa.alumno_id = 10 AND
-            pa.mes = 04 AND
-            YEAR(pa.created) = 2017)
-    	 */
-    	$connection = ConnectionManager::get('default');
-    	$result = $connection->execute("SELECT 1 FROM alumnos WHERE alumnos.id in 
-			(select pa.alumno_id from pagos_alumnos as pa
-            where pa.alumno_id = ".$this->_properties['id']." AND
-            pa.mes = $mes AND
-            YEAR(pa.created) = ".date('Y').")");
-    	if($result->fetch())
-    	{
-    		return true;
-    	}
-    	return false;
-    }
     
     public function desactivarme()
     {
