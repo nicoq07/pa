@@ -241,26 +241,29 @@ class UsersController extends AppController
     
     public function home()
     {
-    	$user = $this->Users->get($this->Auth->user('id'), [
-    			'contain' => ['Roles']
-    	]);
-    	$notificaciones = $this->Users->Notificaciones->find('all')
-    	->where(['receptor' => $user->id , 'leida' => false])
-    	->toArray();
-    	;
-    	
-    	$tareas = TableRegistry::get("GestorTareas")->find('all')
-    	->where(['resuelta' => false])
-    	->toArray();
-    	;
-    	
-    	$tareas = TableRegistry::get("GestorTareas")->find('all')
-    	->where(['resuelta' => false])
-    	->toArray();
-    	;
-    	
-    	
-    	$this->set(compact('user','notificaciones','tareas'));
+        $user = $this->Users->get($this->Auth->user('id'), [
+            'contain' => ['Roles']
+        ]);
+        $notificaciones = $this->Users->Notificaciones->find('all')
+        ->where(['receptor' => $user->id , 'leida' => false])
+        ->toArray();
+        ;
+        
+        $tareas = TableRegistry::get("GestorTareas")->find('all')
+        ->where(['resuelta' => false])
+        ->toArray();
+        ;
+        
+        $tareas = TableRegistry::get("GestorTareas")->find('all')
+        ->where(['resuelta' => false])
+        ->toArray();
+        ;
+        
+        $this->loadComponent('Day');
+        
+        $saludo = $this->Day->momentoDelDia();
+        
+        $this->set(compact('user','notificaciones','tareas','saludo'));
     }
     
     
@@ -309,19 +312,24 @@ class UsersController extends AppController
     public  function oPerfil()
     {
     	
-    	$id = $this->Auth->user('operador_id');
-    	
-    	$horarios = TableRegistry::get('Horarios')->find('all')
-    	->matching('Clases'
-    			)
-    			->where(['nombre_dia' => date('l'), 'Clases.operador_id' => $id])
-    			
-    			->orderAsc("hora")
-    			;
-    			$user = $this->Users->get($this->Auth->user('id'), [
-    					'contain' => ['Roles']
-    			]);
-    			$this->set(compact('user','horarios'));
+        $id = $this->Auth->user('operador_id');
+        
+        $horarios = TableRegistry::get('Horarios')->find('all')
+        ->contain('Ciclolectivo')
+        ->matching('Clases', function ($q)
+        {
+            return $q->where(['Clases.alumno_count >' => 0 ]);
+        })
+        ->where(['nombre_dia' => date('l'), 'Clases.operador_id' => $id,'YEAR(ciclolectivo.fecha_inicio)' => date('Y')])
+        ->orderAsc("hora")
+        ;
+        $mensaje = '';
+        if ($horarios->count() == 0)
+        {
+            $mensaje= 'No tenés alumnos en tus clases para hoy.';
+            
+        }
+        $this->set(compact('horarios','mensaje'));
     }
     
     
