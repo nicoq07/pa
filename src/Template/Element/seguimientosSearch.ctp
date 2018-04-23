@@ -53,13 +53,13 @@
  {
  	
  	var idDisciplina = $( "#disciplinas" ).val();
- 	var Operador_id = $( "#operadores" ).val();
+ 	var operador_id = $( "#operadores" ).val();
  	var year = $( "#year" ).val();
  	 $.ajax({
-        url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'SeguimientosClasesAlumnos','action'=>'getDiaHorario'));?>",
+        url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'SeguimientosPrograma','action'=>'getDiaHorario'));?>",
 
  	        type: "get",
- 	        data: {Operador_id:Operador_id,idDisciplina:idDisciplina,year:year},
+ 	        data: {operador_id:operador_id,idDisciplina:idDisciplina,year:year},
  	        success: function(data) {
  	        	var array = data.split('.');
  	        	var sel = $('#clases');
@@ -82,12 +82,12 @@
  function buscarDisciplinas()
  {
  	
- 	var Operador_id = $( "#operadores" ).val();
+ 	var operador_id = $( "#operadores" ).val();
  	var year = $( "#year" ).val();
      $.ajax({
-        url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'SeguimientosClasesAlumnos','action'=>'getDisciplinas'));?>",
+        url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'SeguimientosPrograma','action'=>'getDisciplinas'));?>",
          type: "get",
-         data: {Operador_id:Operador_id,year:year},
+         data: {operador_id:operador_id,year:year},
          success: function(data) {
          	var array = data.split('.');
        		var sel = $('#disciplinas');
@@ -106,12 +106,12 @@
          }
      });
  }
- function getoperadoresPorAnio()
+ function getOperadoresPorAnio()
  {
  	
  	var year = $( "#year" ).val();
      $.ajax({
-        url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'SeguimientosClasesAlumnos','action'=>'getoperadoresPorAnio'));?>",
+        url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'SeguimientosPrograma','action'=>'getOperadoresPorAnio'));?>",
          type: "get",
          data: {year:year},
          success: function(data) {
@@ -173,14 +173,14 @@
           </div> 	
           <div class="col-lg-6" style="top:10px;" > 
 	  		  <?php
-	  		  echo $this->Form->year('year',['empty' => 'Año','id' => 'year','name' => 'year','maxYear' => date('Y'),'onchange' => 'getoperadoresPorAnio();']);
+	  		  echo $this->Form->year('year',['empty' => 'Año','id' => 'year','name' => 'year','maxYear' => date('Y'),'onchange' => 'getOperadoresPorAnio();']);
 	          ?>
           </div> 
 	 </div>  	
            <div class="col-lg-6" id="div-clases"> 
 	 	<div id = 'sOperador' class= "col-lg-4">
 			<?php 
-	       		 echo $this->Form->label('operadores',['label' => 'operadores']);
+	       		 echo $this->Form->label('operadores',['label' => 'Operadores']);
 	       		 echo $this->Form->select('operadores',['empty' => '-'],['id' => 'operadores','name' => 'operadores','onchange' => 'buscarDisciplinas();']);
 	        ?>
         </div>
