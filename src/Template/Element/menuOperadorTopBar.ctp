@@ -19,7 +19,7 @@
     <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
     <ul class="nav navbar-nav font-menu">
 	      <li class="dropdown">
- 			<?= $this->Html->link(h('Clases del día'), ['controller' =>'Users', 'action' => 'pPerfil'],['class' => 'dropdown-toggle','escape' => true]) ?>	        </li>
+ 			<?= $this->Html->link(h('Clases del día'), ['controller' =>'Users', 'action' => 'oPerfil'],['class' => 'dropdown-toggle','escape' => true]) ?>	        </li>
 	        <li class="dropdown">
 	         	          
 	        </li>
@@ -28,8 +28,7 @@
 	          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Alumnos <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
 	          <ul class="dropdown-menu forAnimate" role="menu">
 	            <li><?= $this->Html->link(h('Ver'), ['controller' =>'Alumnos', 'action' => 'pIndex']) ?></li>
-	          	 <li><?= $this->Html->link(h('Exámenes'), ['controller' =>'examenes', 'action' => 'addOperador'],['target' => '_blank' ]) ?></li>
-	         <li><?= $this->Html->link(h('Planillas'), ['controller' =>'Operadores', 'action' => 'planilla_cursos', $current_user['Operador_id']]) ?></li>
+	         <li><?= $this->Html->link(h('Planillas'), ['controller' =>'Operadores', 'action' => 'planilla_cursos', $current_user['operador_id']]) ?></li>
 	            
 	          </ul>
 	        </li>
@@ -38,8 +37,8 @@
 	        <li class="dropdown">
 	          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Seguimientos <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
 	          <ul class="dropdown-menu forAnimate" role="menu">
-	            <li><?= $this->Html->link(h('Ver seguimientos'), ['controller' =>'SeguimientosClasesAlumnos', 'action' => 'pIndex']) ?></li>
-	            <li><?= $this->Html->link(h('Ver por día'), ['controller' =>'SeguimientosClasesAlumnos', 'action' => 'pPorDia']) ?></li>
+	            <li><?= $this->Html->link(h('Ver seguimientos'), ['controller' =>'SeguimientosPrograma', 'action' => 'oIndex']) ?></li>
+	            <li><?= $this->Html->link(h('Ver por día'), ['controller' =>'SeguimientosPrograma', 'action' => 'oPorDia']) ?></li>
 	          </ul>
 	        </li>
 	         <!--  FIN SECCION SEGUIMIENTOS-->
