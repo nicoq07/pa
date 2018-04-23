@@ -13,30 +13,12 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
--- Base de datos: `sibadb`
+-- Base de datos: `padb`
 --
-CREATE DATABASE IF NOT EXISTS `sibadb` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
-USE `sibadb`;
+CREATE DATABASE IF NOT EXISTS `padb` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
+USE `padb`;
 
-DELIMITER $$
---
--- Procedimientos
---
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cargar_edades` ()  begin
 
-declare v_max int unsigned default 10000;
-declare v_counter int unsigned default 0;
-
-   start transaction;
-  while v_counter < v_max do
-    UPDATE `alumnos` SET `edad`= (SELECT DATEDIFF(CURRENT_DATE, t.fecha_nacimiento)/365 as edad
- 	 FROM alumnos t where t.id = v_counter ) WHERE `alumnos`.`id` =v_counter;
-    set v_counter=v_counter+1;
-  end while;
-  commit;
-end$$
-
-DELIMITER ;
 
 -- --------------------------------------------------------
 
