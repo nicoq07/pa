@@ -39,16 +39,19 @@
 	          <!--          SECCION Operadores-->
 	      <li class="dropdown">
 	          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Personal <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
-	          <ul class="dropdown-menu" role="menu">
-	       		 <li class="dropdown-submenu"> <a href="#">Operadores</a>
-				          <ul class="dropdown-menu forAnimate">
+	          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+	       		 <li class="dropdown-submenu">
+	       		   <a tabindex="-1" href="#">Operadores</a>
+				          <ul class="dropdown-menu">
 				            <li><?= $this->Html->link(h('Alta'), ['controller' =>'Operadores', 'action' => 'add']) ?></li>
             	            <li><?= $this->Html->link(h('Ver todos'), ['controller' =>'Operadores', 'action' => 'index']) ?></li>
             	            <li><?= $this->Html->link(h('Planillas'), ['controller' =>'Operadores', 'action' => 'planillas']) ?></li>
         	          	</ul>
 				  </li>	
-				  <li class="dropdown-submenu pull-left"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profesores</a>
-				          <ul class="dropdown-menu forAnimate">
+				  <li class="divider"></li>
+				  <li class="dropdown-submenu"> 
+				   <a tabindex="-1" href="#">Profesores</a>
+				          <ul class="dropdown-menu">
 				            <li><?= $this->Html->link(h('Alta'), ['controller' =>'Profesores', 'action' => 'add']) ?></li>
             	            <li><?= $this->Html->link(h('Ver todos'), ['controller' =>'Profesores', 'action' => 'index']) ?></li>
         	          	</ul>
