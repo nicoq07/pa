@@ -1,5 +1,5 @@
 <?= $this->assign('title','Inicio');?>
-<div class="col-lg-4 col-lg-offset-1 panel panel-info">
+<div class="col-lg-6 col-lg-offset-3 panel panel-info">
 	<h2 class="panel panel-heading"><?= h(__(date('l')))?> </h2>
 	<?php foreach ($horarios as $horario){?>
 	    <h3><?= h($horario->hora->format('H:i')) ?></h3>
@@ -20,22 +20,23 @@
 	        <?php endif; 
 		}	?>
 </div>
-<div class="col-lg-6 col-lg-offset-1 panel panel-info">
+<div class="col-lg-6 col-lg-offset-3 panel panel-info">
 	<h3 class="panel panel-heading"><?= h("Clases sin alumnos")?> </h3>
 	        <table class="table table-striped">
 	            <tr>
-	                <th scope="col"><?= __('Disciplina') ?></th>
-	                <th scope="col"><?= __('Dia y hora ') ?></th>
-	                <th scope="col"><?= __('Operador') ?></th>
-	                <th scope="col"><?= __('Profesor') ?></th>
-	                <th scope="col"><?= __('Acceder') ?></th>
+	            	<th width="15%" scope="col"><?= __('Dia y hora ') ?></th>
+	                <th width="25%" scope="col"><?= __('Operador') ?></th>
+	                <th width="25%" scope="col"><?= __('Profesor') ?></th>
+	                <th width="15%" scope="col"><?= __('Disciplina') ?></th>
+	                <th width="10%" scope="col"><?= __('Acceder') ?></th>
 	            </tr>
 	     <?php foreach ($clasesD as $c){?>
-	            <tr onclick="<?php echo $this->Html->link([ 'controller' => 'Clases', 'action' => 'view', $c['clase_id']])?>">
-	           		<td><?= h($c['disci']) ?></td>
-	           		<td><?= h(__($c['nom_dia']) ." " . date("H:i",strtotime($c['hora'] ))) ?></td>
-	           		<td><?= h($c['Operador'] ) ?></td>
+	            <tr>
+	            	<td><?= h(__($c['nom_dia']) ." " . date("H:i",strtotime($c['hora'] ))) ?></td>
+	           		<td><?= h($c['operador'] ) ?></td>
 	           		<td><?= h($c['profesor'] ) ?></td>
+	           		<td><?= h($c['disci']) ?></td>
+	           		<td><?php echo $this->Html->link("Ver", [ 'controller' => 'Clases', 'action' => 'view', $c['clase_id']])?></td>
 	            </tr>
 	            <?php }?>
 	        </table>
