@@ -50,7 +50,8 @@ class ClasesTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('Operadores', [
-            'foreignKey' => 'operador_id'
+            'foreignKey' => 'operador_id',
+            'joinType' => 'INNER'
         ]);
         $this->belongsTo('Horarios', [
             'foreignKey' => 'horario_id',
@@ -117,10 +118,27 @@ class ClasesTable extends Table
     
     public function findOrdered(Query $query, array $options)
     {
-    	return $query
-    	->order([
-    			'Horarios.num_dia' => 'asc',
-    			'Horarios.hora'=> 'asc'
-    	]);
+        return $query
+        ->order([
+            'Horarios.num_dia' => 'asc',
+            'Horarios.hora'=> 'asc'
+        ]);
+    }
+    public function findOrderedIndex(Query $query, array $options)
+    {
+        return $query
+        ->order([
+            'Profesores.nombre' => 'asc',
+            'Horarios.num_dia' => 'asc',
+            'Horarios.hora'=> 'asc'
+        ]);
+    }
+    
+    public function findCurrentYear(Query $query, array $options)
+    {
+        return $query
+        ->where([
+            'YEAR(Ciclolectivo.fecha_inicio)' => date('Y'),
+        ]);
     }
 }
