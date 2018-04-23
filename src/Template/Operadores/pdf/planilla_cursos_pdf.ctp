@@ -4,7 +4,7 @@
 <div class="div-fragmento-dia">
 	<div class="div-dia-horario">
 		<h4 class="text-dia-horaio">
-			<?= h($profesor->presentacion ." - ". $mes . " de ". date('Y') )?>
+			<?= h($operador->presentacion ." - ". $mes . " de ". date('Y') )?>
 		 </h4>
 	</div>
 		<small style="font-size: 15px; ">
@@ -95,7 +95,7 @@
 			<!-- DIV ALUMNO -->
 			<div  class="div-fila">
 				<div class= "div-alumno" style="width: 70%;float: left;">
-					<p class="p-alumno"> <?="<strong>". h($clases[$j]['alumno']. ' ') ."</strong>". h($clases[$j]['disci']) ?>  </p>
+					<p class="p-alumno"> <?="<strong>". h($clases[$j]['alumno']. ' ') ."</strong>". h($clases[$j]['disci']) . ' con ' . h($clases[$j]['profesor']) ?>  </p>
 				</div>
 				<?php 
 				$presente = null;

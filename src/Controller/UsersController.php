@@ -270,7 +270,7 @@ class UsersController extends AppController
     	$whereHorario = null;
     	$whereClases = null;
     	
-    		$qClases = "SELECT * FROM view_clases as v WHERE v.cantAlu = 0 order by dia, hora";
+    		$qClases = "SELECT * FROM view_a_clases as v WHERE v.cantAlu = 0 order by dia, hora";
     		$qClases .= $whereClases;
     		$connection = ConnectionManager::get('default');
     		$clasesD = $connection->execute($qClases);

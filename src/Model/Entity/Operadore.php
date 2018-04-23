@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Entity;
 
+use Cake\Datasource\ConnectionManager;
 use Cake\ORM\Entity;
 
 /**
@@ -65,7 +66,7 @@ class Operadore extends Entity
     	MONTH(s.fecha) = $mes AND
     	s.clase_alumno_id = ca.id AND
     	ca.clase_id = c.id AND
-    	c.operador_id = p.id AND
+    	c.operador_id = o.id AND
     	c.horario_id = h.id
     	GROUP BY fecha
     	order by(s.fecha)

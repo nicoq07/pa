@@ -35,7 +35,9 @@ class OperadoresTable extends Table
         $this->setTable('operadores');
         $this->setDisplayField('presentacion');
         $this->setPrimaryKey('id');
-
+        $this->hasMany('Clases', [
+            'foreignKey' => 'operador_id'
+        ]);
         $this->addBehavior('Timestamp');
     }
 
