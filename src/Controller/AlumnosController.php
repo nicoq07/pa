@@ -56,7 +56,7 @@ class AlumnosController extends AppController
 
     public function search()
     {
-    	$where1 = $where2 = $where3 = $where4 = $palabra = null;
+    	$where1 = $where2 = $palabra = null;
     	if ($this->request->is('post'))
     	{
     		if(!empty($this->request->getData()) && $this->request->getData() !== null )
@@ -65,21 +65,15 @@ class AlumnosController extends AppController
     			$esActive = $this->request->getData()['activos'];
     			$where1= ['alumnos.active' => $esActive];
     			
-    			$esAdolecencia =$this->request->getData()['adolecencia'];
-    			$where2= ['alumnos.programa_adolecencia' => $esAdolecencia];
-    			
-    			$esFuturo = $this->request->getData()['futuro'];
-    			$where3= ['alumnos.futuro_alumno' => $esFuturo];
-    			
     			if (!(empty($this->request->getData()['palabra_clave'])))
     			{
     				$palabra = $this->request->getData()['palabra_clave'];
-    				$where4= ["(alumnos.nombre LIKE '%".addslashes($palabra)."%' OR alumnos.apellido LIKE '%".addslashes($palabra)."%' OR
+    				$where2= ["(alumnos.nombre LIKE '%".addslashes($palabra)."%' OR alumnos.apellido LIKE '%".addslashes($palabra)."%' OR
 							 alumnos.nro_documento LIKE '%".addslashes($palabra)."%' OR  CONCAT_WS(' ',alumnos.nombre ,alumnos.apellido) LIKE '".addslashes($palabra)."'
 	     				OR  CONCAT_WS(' ',alumnos.apellido ,alumnos.nombre) LIKE '".addslashes($palabra)."')"
     				];
     			}
-    			$this->request->session()->write('searchCond', [$where1,$where2,$where3,$where4]);
+    			$this->request->session()->write('searchCond', [$where1,$where2]);
     			$this->request->session()->write('search_key', $palabra);
     		}
     	}
@@ -138,7 +132,7 @@ class AlumnosController extends AppController
         
         
         $alumno = $this->Alumnos->get($id, [
-        		'contain' => ['PagosAlumnos' => ['Users'] ,'Clases' => [ 'conditions' => $where]  ]  ]);
+        		'contain' => ['Clases' => [ 'conditions' => $where]  ]  ]);
         
         	$segTable= TableRegistry::get('SeguimientosPrograma');
         	$seguimientos = $segTable->find()
@@ -202,7 +196,6 @@ class AlumnosController extends AppController
 	             $difference = date_diff(date_create($alumno->fecha_nacimiento->format('Y-m-d')), date_create($today));
 	             $alumno->set('edad',$difference->format('%y'));
              }
-             debug($alumno);die;
             	if ($this->Alumnos->save($alumno)) 
             	{
             		if ($tieneClases)
@@ -307,14 +300,10 @@ class AlumnosController extends AppController
             	
             	if (!empty($this->request->getData("clases")['_ids']))
             	{
-            		foreach ($this->request->getData("clases")['_ids'] as $idClase)
-            		{
-            			$clasePrograma = TableRegistry::get('Clases')->get($idClase)->get('programa_adolescencia'); 
-	            			if (!$this->insertarSeguimientoPrograma($alumno->id, $idClase))
+            	    if (!$this->insertarSeguimientoPrograma($alumno->id, $this->request->getData("clases")['_ids']))
 	            			{
 	            				$this->Flash->error(__('Problema al crear los seguimientos'));
 	            			}
-            		}
             	}
                 $this->Flash->success(__('Alumno actualizado.'));
 
@@ -583,7 +572,7 @@ class AlumnosController extends AppController
 
 
 	
-	private function insertarSeguimientoPrograma($idAlumno, $idClase)
+	private function insertarSeguimientoPrograma($idAlumno, $idsClases)
 	{
 		$alumno = $this->Alumnos->get($idAlumno);
 		

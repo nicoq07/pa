@@ -3,92 +3,72 @@
 
 </style>
 
-<script type="text/javascript">
+<script type="text/javascript"> 
 //en busca los dias y horarios, pero el id es de la clase
-function getDiaHorario()
-{
-	
-	var idDisciplina = $( "#disciplinas" ).val();
-	var operador_id = $( "#operadores" ).val();
-	 $.ajax({
-// 	        url: "getDiaHorario",
-       url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'Alumnos','action'=>'getDiaHorario'));?>",
+ function getDiaHorario()
+ {
+ 	
+ 	var disciplina_id = $( "#disciplinas" ).val();
+ 	var operador_id = $( "#operadores" ).val();
+ 	 $.ajax({
+        url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'Alumnos','action'=>'getDiaHorario'));?>",
 
-	        type: "get",
-	        data: {operador_id:operador_id,idDisciplina:idDisciplina },
-	        success: function(data) {
-	        	var array = data.split('.');
-	        	var sel = $('#clases');
-	        	sel.empty();
-// 	        	sel.on('change', function (data) {
-// 						mifuncion();
-// 	            })
-// 	            sel.attr('id', 'clases._ids');
-	           	
- 	        	sel.append($("<option>").attr('value',null).text('Seleccione horario'));
-	         	$(array).each(function() {
-	        	
-	        		d = this.split('-');
-	            	 sel.append($("<option>").attr('value',d[0]).text(d[1]));
-	           	})
-// 		         	div = document.createElement('div');
-// 		        	$(div).addClass('input select')
-// 		     	    .html(sel);
-		        	
-// 		         	$('#shorario').append(div)
-	        },
-	        error: function(){
-				alert("Error");
-	        },
-	        complete: function() {
-	        }
+ 	        type: "get",
+ 	        data: {operador_id:operador_id,disciplina_id:disciplina_id },
+ 	        success: function(data) {
+ 	        	var array = data.split('.');
+ 	        	var sel = $('#clases');
+ 	        	sel.empty();
+  	        	sel.append($("<option>").attr('value','').text('Seleccione horario'));
+ 	         	$(array).each(function() {
+ 	        	
+ 	        		d = this.split('-');
+ 	            	 sel.append($("<option>").attr('value',d[0]).text(d[1]));
+ 	           	})
+ 	        },
+ 	        error: function(){
+ 				alert("Error");
+ 	        },
+ 	        complete: function() {
+ 	        }
+ 	    });
+ }
+
+ function buscarDisciplinas()
+ {
+ 	
+ 	var operador_id = $( "#operadores" ).val();
+     $.ajax({
+        url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'Alumnos','action'=>'getDisciplinas'));?>",
+         type: "get",
+         data: {operador_id:operador_id},
+         success: function(data) {
+         	var array = data.split('.');
+       		var sel = $('#disciplinas');
+       		sel.empty();
+         	sel.append($("<option>").attr('value',null).text('Seleccione disciplina'));
+          	$(array).each(function() {
+         	
+         		d = this.split('-');
+             	 sel.append($("<option>").attr('value',d[0]).text(d[1]));
+            	})
+         	},
+         error: function(){
+ 			alert("Error buscando las disciplinas");
+         },
+         complete: function() {
+            // alert('Disciplinas disponibles');
+         }
+     });
+ }
+ $(document).ready(function(){
+	 $("#divPadres").toggle();
+	    $("#botonDiv").click(function(){
+	    	$("#botonDiv").html('-');
+	        $("#divPadres").toggle();
+	        return false;
 	    });
-}
-
-function buscarDisciplinas()
-{
-	
-	var operador_id = $( "#operadores" ).val();
-    $.ajax({
-        //url: "getDisciplinas",
-       url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'Alumnos','action'=>'getDisciplinas'));?>",
-        type: "get",
-        data: {operador_id:operador_id},
-        success: function(data) {
-
-            
-        	//$("#disciplinas").remove();
-        	var array = data.split('.');
-        //	var sel = $('<select>');
-      		var sel = $('#disciplinas');
-      		sel.empty();
-//         	sel.on('change', function (data) {
-//         		getDiaHorario();
-//             })
-//             sel.attr('id', 'disciplinas');
-//             ;
-        	sel.append($("<option>").attr('value',null).text('Seleccione disciplina'));
-         	$(array).each(function() {
-        	
-        		d = this.split('-');
-            	 sel.append($("<option>").attr('value',d[0]).text(d[1]));
-           	})
-           		
-// 	         	div = document.createElement('div');
-// 	        	$(div).addClass('input select')
-// 	     	    .html(sel);
-	        	
-// 	         	$('#sdisciplina').append(div)
-	         	
-        },
-        error: function(){
-			alert("Error buscando las disciplinas");
-        },
-        complete: function() {
-           // alert('Disciplinas disponibles');
-        }
-    });
-}
+	});
 </script>
 <div class="col-lg-10 col-lg-offset-1 panel">
 	   <?= $this->Form->create($alumno,['type' => 'file']) ?>

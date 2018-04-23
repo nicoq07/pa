@@ -59,11 +59,6 @@
 		<div class="col-lg-2 col-md-2 borde view-div"><?= __('Email tutor 2') ?></div>
 		<div class="col-lg-4 col-md-4 borde"><?=$alumno->email_padre ? h($alumno->email_padre) : "-" ?> </div>
 <!-- 	8-->		
-		<div class="col-lg-2 col-md-2 borde view-div"><?= __('Legajo') ?></div>
-		<div class="col-lg-4 col-md-4  borde"><?= h($alumno->id) ?> </div>
-		<div class="col-lg-3 col-md-3 borde view-div"><?= __('Legajo anterior') ?></div>
-		<div class="col-lg-3 col-md-3  borde"><?= $alumno->legajo_numero ? h($alumno->legajo_numero) : "-"?></div>
-<!--	10-->		
 		<div class="col-lg-2 col-md-2 borde view-div"><?= __('Colegio') ?></div>
 		<div class="col-lg-10 borde"><?= $alumno->colegio ? h($alumno->colegio) : "-"?> </div>
 <!--	11-->	
@@ -116,7 +111,7 @@
 			</div>
 	       
 	    </div>
-	     <div class="related col-lg-10 col-lg-offset-1 panel-warning">
+	     <div class="related col-lg-10 col-lg-offset-1 panel panel-warning">
 	        	<div class="panel-heading">
 			   	 <h4><?= __('Seguimientos de Clases' ) ?></h4>
 			    </div>
@@ -145,8 +140,8 @@
 	            </tr>
 	            <?php endforeach; ?>
 	        </table>
-	        <?php  }  else { echo "<strong> ". h("El alumno no ha asistido a ninguna clase todavía") ."</strong> "; }?>
 	        </div>
+	       	        <?php  }  else { echo "<strong> ". h("El alumno no ha asistido a ninguna clase todavía") ."</strong> "; }?>
 	       
 	    </div>
 	

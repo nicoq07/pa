@@ -18,7 +18,7 @@
  	        	var array = data.split('.');
  	        	var sel = $('#clases');
  	        	sel.empty();
-  	        	sel.append($("<option>").attr('value',null).text('Seleccione horario'));
+  	        	sel.append($("<option>").attr('value','').text('Seleccione horario'));
  	         	$(array).each(function() {
  	        	
  	        		d = this.split('-');
