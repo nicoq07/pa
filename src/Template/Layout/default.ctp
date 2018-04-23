@@ -56,7 +56,7 @@ $description = 'Iba Escuela ' .date("Y");
     
          <?php if (!empty($current_user) && $current_user['rol_id'] === ADMINISTRADOR) : ?>
           	 <?= $this->element('menuAdminTopBar');?>
-         <?php elseif (!empty($current_user) && $current_user['rol_id'] === PROFESOR) : ?>
+         <?php elseif (!empty($current_user) && $current_user['rol_id'] === OPERADOR) : ?>
          	<?= $this->element('menuOperadorTopBar') ?>
          <?php endif; ?>
         
