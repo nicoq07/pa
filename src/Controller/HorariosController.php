@@ -29,18 +29,19 @@ class HorariosController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index()
-    {
-        $this->paginate = [
+	public function index()
+	{
+		$this->paginate = [
 				'limit' => 30,
-        		'contain' => ['Ciclolectivo'],
-        		'finder' => 'ordered',
-        ];
-        $horarios = $this->paginate($this->Horarios);
-
-        $this->set(compact('horarios'));
-        $this->set('_serialize', ['horarios']);
-    }
+				'contain' => ['Ciclolectivo'],
+				'finder' => 'ordered',
+				'finder' => 'currentYear',
+		];
+		$horarios = $this->paginate($this->Horarios);
+		
+		$this->set(compact('horarios'));
+		$this->set('_serialize', ['horarios']);
+	}
 
     /**
      * View method
@@ -66,31 +67,29 @@ class HorariosController extends AppController
      */
     public function add()
     {
-        $horario = $this->Horarios->newEntity();
-        if ($this->request->is('post')) {
-            $horario = $this->Horarios->patchEntity($horario, $this->request->getData());
-            $horario->num_dia = (date('N',strtotime($horario->nombre_dia)));
-            if ($this->Horarios->save($horario)) {
-                $this->Flash->success(__('The horario has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The horario could not be saved. Please, try again.'));
-        }
-        $dia = array("Lunes","Martes","Miércoles","Jueves","Viernes",'Sábado','Domingo');
-        $days = array(
-        		'Monday',
-        		'Tuesday',
-        		'Wednesday',
-        		'Thursday',
-        		'Friday',
-        		'Saturday',
-        		'Sunday'
-        		);
-        $dias = array_combine($days, $dia);
-        $ciclolectivo = $this->Horarios->Ciclolectivo->find('list', ['limit' => 200]);
-        $this->set(compact('horario', 'ciclolectivo','dias'));
-        $this->set('_serialize', ['horario']);
+    	$horario = $this->Horarios->newEntity();
+    	if ($this->request->is('post')) {
+    		$horario = $this->Horarios->patchEntity($horario, $this->request->getData());
+    		$horario->num_dia = (date('N',strtotime($horario->nombre_dia)));
+    		if ($this->Horarios->save($horario)) {
+    			$this->Flash->success(__('The horario has been saved.'));
+    			
+    			return $this->redirect(['action' => 'index']);
+    		}
+    		$this->Flash->error(__('The horario could not be saved. Please, try again.'));
+    	}
+    	$dia = array("Lunes","Martes","Miércoles","Jueves","Viernes");
+    	$days = array(
+    			'Monday',
+    			'Tuesday',
+    			'Wednesday',
+    			'Thursday',
+    			'Friday',
+    	);
+    	$dias = array_combine($days, $dia);
+    	$ciclolectivo = $this->Horarios->Ciclolectivo->find('list', ['limit' => 3])->orderDesc('id');
+    	$this->set(compact('horario', 'ciclolectivo','dias'));
+    	$this->set('_serialize', ['horario']);
     }
 
     /**
@@ -147,5 +146,27 @@ class HorariosController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+    public function searchCurrentYear()
+    {
+    	$this->autoRender = false;
+    	
+    	$year = $this->request->getData()['cboYear']['year'];
+    	if (is_numeric($year))
+    	{
+    		$where = ['YEAR(Ciclolectivo.fecha_inicio)' => $year];
+    		
+    		$this->paginate = [
+    				'limit' => 30,
+    				'contain' => ['Ciclolectivo'],
+    				'finder' => 'ordered',
+    				'conditions' => $where,
+    		];
+    		$horarios = $this->paginate($this->Horarios);
+    		
+    		$this->set(compact('horarios'));
+    		$this->set('_serialize', ['horarios']);
+    	}
+    	$this->render('/Horarios/index');
     }
 }

@@ -89,16 +89,24 @@ class HorariosTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['ciclolectivo_id'], 'Ciclolectivo'));
-
+        $rules->add($rules->isUnique(['hora','ciclolectivo_id','nombre_dia','num_dia'] ,'Ya existe ese horario cargado'));
+        
         return $rules;
     }
     
     public function findOrdered(Query $query, array $options)
     {
-    	return $query
-    	->order([
-    			'Horarios.num_dia' => 'asc',
-    			'Horarios.hora' => 'asc'
-    	]);
+        return $query
+        ->order([
+            'Horarios.num_dia' => 'asc',
+            'Horarios.hora' => 'asc'
+        ]);
+    }
+    public function findCurrentYear(Query $query, array $options)
+    {
+        return $query
+        ->where([
+            'YEAR(Ciclolectivo.fecha_inicio)' => date('Y'),
+        ]);
     }
 }
