@@ -1,6 +1,6 @@
 <?= $this->assign('title', 'Mis Seguimientos'); ?>
-<div class="index col-lg-9 panel">
-	<h3 class="panel-heading"><?= __('Seguimientos') ?></h3> 
+<div class="col-lg-12 panel panel-info">
+	<div class="panel-heading" ><h3 ><?= __('Seguimientos') ?></h3> </div>
   	<?php 
   	 echo $this->element('seguimientosOperadorSearch');
   	?>

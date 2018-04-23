@@ -1,5 +1,5 @@
 <div class="col-lg-12" style="margin-top: 10px; ">
- <?php echo $this->Form->create('search', ['id' => 'frmIndex', 'url' => ['action' => 'pSearch']]); ?>
+ <?php echo $this->Form->create('search', ['id' => 'frmIndex', 'url' => ['action' => 'oSearch']]); ?>
   	<div class="col-lg-12">
   		<div class="col-lg-2 col-lg-offset-10">
 			<?php
