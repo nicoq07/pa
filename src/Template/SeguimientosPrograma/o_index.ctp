@@ -2,7 +2,7 @@
 <div class="index col-lg-9 panel">
 	<h3 class="panel-heading"><?= __('Seguimientos') ?></h3> 
   	<?php 
-  	 echo $this->element('seguimientosSearchPO');
+  	 echo $this->element('seguimientosOperadorSearch');
   	?>
   	&nbsp;
     <div id="no-more-tables">

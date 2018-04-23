@@ -1,23 +1,24 @@
 <?= $this->assign('title', 'Seguimientos Programa Adolescencia');?>
-<div class="col-lg-8 col-lg-offset-1 panel">
-<div class="row">
-	<h3><?= __('Seguimientos Programa Adolescencia') ?></h3> 
+<div class="col-lg-12  panel panel-info">
+	<div class='col-lg-12  panel-heading'><h3><?= __('Seguimientos Programa Adolescencia') ?></h3> </div>
   <?php  echo $this->element('seguimientosSearch'); ?>	
   	 &nbsp;
    <div id="no-more-tables">
             <table class="col-lg-12 table-striped table-condensed cf">
         		<thead class="cf">
             <tr>
+            	 <th width="30%" scope="col"><?= h('Operador') ?></th>
                 <th width="30%" scope="col"><?= h('Clase') ?></th>
                  <th width="20%" scope="col"><?=  $this->Paginator->sort('alumno_id') ?></th>
                 <th width="10%" scope="col"><?= $this->Paginator->sort('presente') ?></th>
                 <th width="10%" scope="col"><?= $this->Paginator->sort('fecha') ?></th>
-                <th width="20%" scope="col" class="actions"><?= __('Acciones') ?></th>
+                <th width="15%" scope="col" class="actions"><?= __('Acciones') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($seguimientosPrograma as $seguimientos): ?>
             <tr>
+            	<td data-title="Operador"><?= $this->Html->link($seguimientos->clases_alumno->clase->operadore->presentacion, ['controller' => 'Operadores', 'action' => 'view', $seguimientos->clases_alumno->clase->operadore->id])  ?></td>
                 <td data-title="Clase"><?= $this->Html->link($seguimientos->clases_alumno->clase->presentacion, ['controller' => 'Clases', 'action' => 'view', $seguimientos->clases_alumno->clase->id])  ?></td>
                 <td data-title="Alumno"><?= $this->Html->link($seguimientos->clases_alumno->alumno->presentacion, ['controller' => 'Alumnos', 'action' => 'view', $seguimientos->clases_alumno->alumno->id])  ?></td>
                 <td data-title="Presente"><?= $seguimientos->presente ? h('Sí') : h("No") ?></td>
@@ -33,5 +34,4 @@
     </table>
      </div>
     <?=  $this->element('footer')?>
-   </div>
 </div>
