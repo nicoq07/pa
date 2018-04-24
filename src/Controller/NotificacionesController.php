@@ -104,7 +104,7 @@ class NotificacionesController extends AppController
     		$this->set('_serialize', ['notificacione']);
     }
 
-    public function addProfesor()
+    public function addOperador()
     {
     	$this->autoRender = false;
     	$notificacione = $this->Notificaciones->newEntity();
