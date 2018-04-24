@@ -12,7 +12,20 @@ use Cake\Datasource\ConnectionManager;
  */
 class OperadoresController extends AppController
 {
-
+    public function isAuthorized($user)
+    {
+        if(isset($user['rol_id']) &&  $user['rol_id'] === OPERADOR)
+        {
+            if(in_array($this->request->action, ['planillaCursos','planillaCursosPdf','prepararListado','gruopBy']))
+            {
+                return true;
+            }
+        }
+        return parent::isAuthorized($user);
+        
+        return true;
+    }
+    
     /**
      * Index method
      *
@@ -114,7 +127,7 @@ class OperadoresController extends AppController
         $selected = ['empty' => "Seleccione operador..."];
         if (!empty($id))
         {
-            $where= ['operador.id' => $id];
+            $where= ['Operadores.id' => $id];
             $selected = ['selected' => 1];
         }
         $operadores = $this->Operadores
@@ -209,6 +222,7 @@ class OperadoresController extends AppController
     	ORDER BY dia,hora";
         
         $clasesD = $connection->execute($qClases);
+        
         
         
         $arrayClases = $this->groupBy($rClases, 'nom_dia');

@@ -1,3 +1,18 @@
+<?php  function getCodigo($tipo = null)
+{
+if ($tipo == null)
+{
+    return '0';
+}
+else {
+    $pos = strpos($tipo, '.');
+    $codigo = substr($tipo,  0,$pos);
+    return $codigo;
+}
+}
+getCodigo(FERIADO);
+
+?>
 	<div class="pull-left">
 		<span><?php echo "Generada: ". date('d-m-Y') ?></span>
 	</div>
@@ -8,7 +23,7 @@
 		 </h4>
 	</div>
 		<small style="font-size: 15px; ">
-			<?php echo "Referencias: <b>P</b>: Presente. <b>A</b>: Ausente. <b>X</b>: No tuvo clase ese día. <b>Vacío</b>: Nada cargado";?>
+			<?php echo "Referencias: <b>1</b>: Presente Activo. <b>2</b>: Presente Pasivo. <b>3</b>: Ausente Sin Aviso. <b>4</b>: Ausente Con Aviso. <b>5</b>: No Corresponde. <b>99</b>: FERIADO.";?>
 		 </small>
 
 	
@@ -115,13 +130,7 @@
 									{
 										if ($alumno[$i+$x]['presente'])
 										{
-											$presente = 'P';
-											next($arrayPresentes);
-											break;
-										}
-										elseif (($alumno[$i+$x]['presente'] == false) &&  ($alumno[$i+$x]['creada'] != $alumno[$i+$x]['modificada']))
-										{
-											$presente = 'A';
+										    $presente = getCodigo($alumno[$i+$x]['presente']);
 											next($arrayPresentes);
 											break;
 										}
