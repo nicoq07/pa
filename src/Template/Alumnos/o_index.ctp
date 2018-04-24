@@ -7,12 +7,15 @@
 	        <thead>
 	            <tr>
 	                <th><?= h('Nombre') ?></th>
+	                <th><?= h('Acción') ?></th>
 	            </tr>
 	        </thead>
 	        <tbody>
 	            <?php foreach ($alumnos as $alumno): ?>
 	            <tr>
 	                <td><?= $this->Html->link($alumno->presentacion, ['action' => 'oView', $alumno->id]) ?></td>
+	           		<td><?= $this->Html->link('Editar', ['action' => 'edit', $alumno->id],['class' => 'btn btn-md btn-info']) ?></td>
+	           	
 	            </tr>
 	            <?php endforeach; ?>
 	        </tbody>

@@ -27,7 +27,7 @@
 	        <li class="dropdown">
 	          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Alumnos <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
 	          <ul class="dropdown-menu forAnimate" role="menu">
-	            <li><?= $this->Html->link(h('Ver'), ['controller' =>'Alumnos', 'action' => 'pIndex']) ?></li>
+	            <li><?= $this->Html->link(h('Ver'), ['controller' =>'Alumnos', 'action' => 'oIndex']) ?></li>
 	         <li><?= $this->Html->link(h('Planillas'), ['controller' =>'Operadores', 'action' => 'planilla_cursos', $current_user['operador_id']]) ?></li>
 	            
 	          </ul>

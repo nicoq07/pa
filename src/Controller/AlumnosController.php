@@ -24,7 +24,7 @@ class AlumnosController extends AppController
 	{
 		if(isset($user['rol_id']) &&  $user['rol_id'] == OPERADOR)
 		{
-			if(in_array($this->request->action, ['oView','oIndex']))
+			if(in_array($this->request->action, ['oView','oIndex','edit']))
 			{
 				return true;
 			}
@@ -306,7 +306,10 @@ class AlumnosController extends AppController
 	            			}
             	}
                 $this->Flash->success(__('Alumno actualizado.'));
-
+                if ($this->Auth->user('operador_id') > 0)
+                {
+                    return $this->redirect(['action' => 'o_index']);
+                }
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('El alumno no pudo ser guardado, reintente'));
