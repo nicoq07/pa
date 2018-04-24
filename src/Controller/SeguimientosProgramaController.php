@@ -467,7 +467,57 @@ class SeguimientosProgramaController extends AppController
         $this->set(compact('seguimientosPrograma','mensaje'));
         $this->render('/SeguimientosPrograma/o_index');
     }
-
+    public  function informe()
+    {
+        if ($this->request->is('post'))
+        {
+            $alumno = null;
+            $clase = null;
+            if($this->request->getData('clases') && $this->request->getData('alumnos'))
+            {
+                $idClase = $this->request->getData('clases');
+                $idAlumno = $this->request->getData('alumnos');
+                $alumno = TableRegistry::get('Alumnos')->get($idAlumno);
+                $clase= TableRegistry::get('Clases')->get($idClase,['contain' => 'Disciplinas']);
+                
+                return  $this->redirect(['action' => 'listado_pdf',$idAlumno,$idClase,'_ext' => 'pdf']);
+            }
+        }
+        
+        $this->set('seg');
+    }
+    
+    public function listadoPdf($idAlumno,$idClase)
+    {
+        $seguimientos = $this->SeguimientosPrograma->find('all',[
+            'contain' => ['ClasesAlumnos'],
+            'order' => ['SeguimientosPrograma.fecha' => 'ASC']
+            
+        ])
+        ->matching('ClasesAlumnos.Alumnos', function ($q) use($idAlumno){
+            return $q->where(['Alumnos.id' => $idAlumno]);
+        })
+        ->matching('ClasesAlumnos.Clases', function ($q) use($idClase){
+            return $q->where(['Clases.id' => $idClase]);
+        })
+        ->where(['DATE(SeguimientosPrograma.fecha) <= ' => date('Y-m-d')])
+        ->order('SeguimientosPrograma.fecha')
+        ;
+        
+        
+        $alumno = TableRegistry::get('Alumnos')->get($idAlumno);
+        $clase = TableRegistry::get('Clases')->get($idClase,
+            [
+                'contain' => ['Profesores','Operadores','Disciplinas']
+            ]);
+        $this->prepararListadoSeguimiento($clase->disciplina->descripcion, $alumno->presentacion, "A4", "portrait");
+        
+        //     	->matching('ClasesAlumnos.Clases.Profesores', function ($q) use($idClase){
+        //     		return $q->where(['Clases.id' => $idClase]);
+        //     	})->toArray();
+        $this->set(compact('seguimientos','clase','alumno'));
+    }
+    
     public function reset()
     {
         if ($this->request->session()->check('searchCond')) {
@@ -591,5 +641,19 @@ class SeguimientosProgramaController extends AppController
         exit;
     }
 
+    private function prepararListadoSeguimiento($clase,$alumno,$tipoHoja,$orientacion)
+    {
+        $this->viewBuilder()->setOptions([
+            'pdfConfig' => [
+                'margin-bottom' => 0,
+                'margin-right' => 0,
+                'margin-left' => 0,
+                'margin-top' => 0,
+                'pageSize' => $tipoHoja,
+                'orientation' => $orientacion,
+                'filename' => "Seguimientos  de ".$alumno.' en '.$clase.'.pdf'
+            ]
+        ]);
+    }
 
 }
