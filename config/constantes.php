@@ -26,6 +26,17 @@ define('CORREO_EMPRESA',"ibalugano@gmail.com");
 define('WEB_EMPRESA',"www.ibalugano.com.ar");
 define('CELULAR_EMPRESA',"1127135062");
 
+
+//TIPO DE PRESENTES, LISTA SININA
+define('PRESENTE_ACTIVO',"1. PRESENTE ACTIVO");
+define('PRESENTE_PASIVO',"2. PRESENTE PASIVO");
+define('AUSENTE_SIN_AVISO',"3. AUSENTE SIN AVISO");
+define('AUSENTE_CON_AVISO',"4. AUSENTE CON AVISO");
+define('NO_CORRESPONDE',"5. NO CORRESPONDE");
+define('FERIADO',"99. SEDE CERRADA, FERIADO");
+
+
+
 //Modulos
 define('FULL',TRUE);
 define('ALUMNOS_PAGOS',FALSE);

@@ -215,12 +215,13 @@
             echo $this->Form->control('palabra_clave', ['label' => false,'placeholder' => 'Alumno o Operador ', 'onchange'=>'document.getElementById("frmIndex").submit()']);
           ?>
 	 </div>
-  	 <div class="col-lg-2" style="top:18px;">
-          <?= $this->Form->button('Buscar',['class' => 'btn btn-success'])  ?>
+  	 <div class="col-lg-2" style='top: 20px;'>
+          <?= $this->Form->button('Buscar',['class' => 'btn btn-block btn-success'])  ?>
      </div>
 	
 	 
 	 <?php echo $this->Form->end(); ?>
+	 &nbsp;
 	<div class="col-lg-12 alert alert-success alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 <?php if ($mensaje) { echo 

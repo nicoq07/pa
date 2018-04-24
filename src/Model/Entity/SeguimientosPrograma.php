@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $clase_alumno_id
  * @property string $observacion
- * @property bool $presente
+ * @property string $presente
  * @property \Cake\I18n\FrozenTime $fecha
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified

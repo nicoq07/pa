@@ -599,7 +599,7 @@ CREATE TABLE `seguimientos_programa` (
   `id` int(11) NOT NULL,
   `clase_alumno_id` int(11) DEFAULT NULL,
   `observacion` text COLLATE latin1_spanish_ci,
-  `presente` tinyint(1) NOT NULL DEFAULT '0',
+  `presente` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
   `fecha` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL

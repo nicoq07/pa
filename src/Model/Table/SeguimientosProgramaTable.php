@@ -61,7 +61,6 @@ class SeguimientosProgramaTable extends Table
             ->allowEmpty('observacion');
 
         $validator
-            ->boolean('presente')
             ->requirePresence('presente', 'create')
             ->notEmpty('presente');
 

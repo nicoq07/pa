@@ -3,7 +3,7 @@
   	<div class="col-lg-12">
   		<div class="col-lg-2 col-lg-offset-10">
 			<?php
-				echo $this->Html->link('Borrar filtros',['action'=>'pReset'],[ 'class' => 'btn-sm btn-danger']);
+				echo $this->Html->link('Borrar filtros',['action'=>'oReset'],[ 'class' => 'btn-sm btn-danger']);
 	        ?>          
 	      </div>
 	 </div>
@@ -79,13 +79,13 @@
  {
  	
  	var idDisciplina = $( "#disciplinas" ).val();
- 	var profesor_id = "<?php echo $current_user['profesor_id']?>";
+ 	var operador_id = "<?php echo $current_user['operador_id']?>";
  	var year = $( "#year" ).val();
  	 $.ajax({
-        url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'SeguimientosClasesAlumnos','action'=>'getDiaHorario'));?>",
+        url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'SeguimientosPrograma','action'=>'getDiaHorario'));?>",
 
  	        type: "get",
- 	        data: {profesor_id:profesor_id,idDisciplina:idDisciplina,year:year},
+ 	        data: {operador_id:operador_id,idDisciplina:idDisciplina,year:year},
  	        success: function(data) {
  	        	var array = data.split('.');
  	        	var sel = $('#clases');
@@ -107,13 +107,13 @@
 
  function buscarDisciplinas()
  {
- 	var profesor_id = "<?php echo $current_user['profesor_id']?>";
- 	console.log(profesor_id);
+ 	var operador_id = "<?php echo $current_user['operador_id']?>";
+ 	console.log(operador_id);
  	var year = $( "#year" ).val();
      $.ajax({
-        url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'SeguimientosClasesAlumnos','action'=>'getDisciplinas'));?>",
+        url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'SeguimientosPrograma','action'=>'getDisciplinas'));?>",
          type: "get",
-         data: {profesor_id:profesor_id,year:year},
+         data: {operador_id:operador_id,year:year},
          success: function(data) {
          	var array = data.split('.');
        		var sel = $('#disciplinas');

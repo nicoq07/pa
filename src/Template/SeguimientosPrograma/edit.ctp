@@ -8,10 +8,8 @@
 	    <fieldset>
 	       
 	        <?php
-	           // echo $this->Form->control('clase_alumno_id');
 	        echo $this->Form->control('observacion',['label' => 'Observación', 'onfocus' => "this.select()"]);
-	            echo $this->Form->control('presente');
-	          //  echo $this->Form->control('fecha', ['empty' => true]);
+	        echo $this->Form->control('presente', ['type' => 'select', 'options' => $tiposPresentes]);
 	        ?>
 	    </fieldset>
 	    <?= $this->Form->button('Guardar', ['class' => 'btn-lg btn-success']) ?>

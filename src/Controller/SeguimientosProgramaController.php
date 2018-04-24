@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
+use Cake\Controller\Component;
+use App\Controller\Component\TipoPresentesComponent;
 
 /**
  * SeguimientosPrograma Controller
@@ -17,7 +19,7 @@ class SeguimientosProgramaController extends AppController
 	{
 		if(isset($user['rol_id']) &&  $user['rol_id'] == OPERADOR)
 		{
-			if(in_array($this->request->action, ['oIndex','edit','view','oSearch','addProfesor','reset','oPorDia','oCargaMultiple']))
+			if(in_array($this->request->action, ['oIndex','edit','view','oSearch','addProfesor','oReset','oPorDia','oCargaMultiple','getDisciplinas', 'getDiaHorario']))
 			{
 				return true;
 			}
@@ -225,8 +227,10 @@ class SeguimientosProgramaController extends AppController
     		}
     		$this->Flash->error(__('El seguimiento no ha podido guardarse, reintente!.'));
     	}
+    	$this->loadComponent('TipoPresentes');
+    	$tiposPresentes = $this->TipoPresentes->getArrayTipoPresentes();
     	$ClasesAlumnos = $this->SeguimientosPrograma->ClasesAlumnos->find('list', ['limit' => 200]);
-    	$this->set(compact('seguimientosPrograma', 'ClasesAlumnos'));
+    	$this->set(compact('seguimientosPrograma', 'ClasesAlumnos','tiposPresentes'));
     	$this->set('_serialize', ['seguimientosClasesAlumno']);
     	$this->render('/SeguimientosPrograma/edit/');
     	
@@ -258,8 +262,10 @@ class SeguimientosProgramaController extends AppController
     		}
     		$this->Flash->error(__('El seguimiento no ha podido guardarse, reintente!.'));
     	}
+    	$this->loadComponent('TipoPresentes');
+     	$tiposPresentes = $this->TipoPresentes->getArrayTipoPresentes();
     	$ClasesAlumnos = $this->SeguimientosPrograma->ClasesAlumnos->find('list', ['limit' => 200]);
-    	$this->set(compact('seguimientosPrograma', 'ClasesAlumnos'));
+    	$this->set(compact('seguimientosPrograma', 'ClasesAlumnos','tiposPresentes'));
     }
     public function oIndex()
     {
@@ -270,10 +276,10 @@ class SeguimientosProgramaController extends AppController
             'contain' => ['ClasesAlumnos' => ['Alumnos','Clases' => ['Disciplinas','Horarios' => ['Ciclolectivo'],'Profesores'] ]],
             'finder' => 'Ordered',
         ];
-        $seguimientosProgramas = $this->paginate($this->SeguimientosPrograma);
+        $seguimientosPrograma = $this->paginate($this->SeguimientosPrograma);
         $mensaje['Se buscó: '][0]= 'Seguimientos que me faltan cargar hasta hoy.';
         
-        $this->set(compact('seguimientosProgramas','mensaje'));
+        $this->set(compact('seguimientosPrograma','mensaje'));
     }
     
     public function oPorDia()
@@ -362,78 +368,104 @@ class SeguimientosProgramaController extends AppController
                 $this->Flash->error(__('El seguimiento no ha podido guardarse, reintente!.'));
             }
         }
-        
+        $this->loadComponent('TipoPresentes');
+        $tiposPresentes = $this->TipoPresentes->getArrayTipoPresentes();
         $clase = TableRegistry::get('Clases')->get($idClase);
         $ClasesAlumnos = $this->SeguimientosPrograma->ClasesAlumnos->find('list');
-        $this->set(compact('seguimientos', 'calificaciones','clase','fecha'));
+        $this->set(compact('seguimientos', 'calificaciones','clase','fecha','tiposPresentes'));
         
     }
     
     public function oSearch()
     {
-    	$form = 'oSearch';
-    	$where1 = $where2 = $where3 = $where4 =null;
-    	if ($this->request->is('post'))
-    	{
-    		if(!empty($this->request->getData()) && $this->request->getData() !== null )
-    		{
-    			//debug($this->request->getData());die;
-    			if (!(empty($this->request->getData()['clases'])))
-    			{
-    				$clase = $this->request->getData()['clases'];
-    				$where1= ["clases.id = $clase"];
-    			}
-    			$day= $this->request->getData()['fecha']['day'];
-    			$month= $this->request->getData()['fecha']['month'];
-    			$year = date('Y');
-    			if (!empty($day) && !empty($month))
-    			{
-    				$fecha =date('Y-m-d',strtotime("$year-$month-$day"));
-    				$where2 = ["DATE(fecha) = '$fecha'"];
-    			}
-    			elseif ($month)
-    			{
-    				$fecha =date('Y-m-d',strtotime("$year-$month-01"));
-    				$where2 = ["EXTRACT(YEAR_MONTH FROM fecha) = EXTRACT(YEAR_MONTH FROM '$fecha')"];
-    			}
-    			//debug($where2); die;
-    			if ($this->request->getData()['modificados'])
-    			{
-    				$where3= 'SeguimientosPrograma.created <> SeguimientosPrograma.modified';
-    			}
-    			if (!(empty($this->request->getData()['palabra_clave'])))
-    			{
-    				$palabra = $this->request->getData()['palabra_clave'];
-    				$where4= ["(alumnos.nombre LIKE '%".addslashes($palabra)."%' OR alumnos.apellido LIKE '%".addslashes($palabra)."%' OR
-							 CONCAT_WS(' ',alumnos.nombre ,alumnos.apellido) LIKE '".addslashes($palabra)."'
-	     				OR  CONCAT_WS(' ',alumnos.apellido ,alumnos.nombre) LIKE '".addslashes($palabra)."')"
-    				];
-    			}
-    			
-    			$this->request->session()->write('searchCond', [$where1,$where2,$where3,$where4]);
-    		}
-    	}
-    	
-    	if ($this->request->session()->check('searchCond')) {
-    		$conditions = $this->request->session()->read('searchCond');
-    	} else {
-    		$conditions = null;
-    	}
-    	
-    	$this->paginate = [
-    			'contain' => ['ClasesAlumnos' => ['Alumnos','Clases' => ['Disciplinas','Horarios','Profesores','Operadores'] ]],
-    			'conditions' => [$conditions, 'DATE(fecha) <= ' => date('Y-m-d'),'clases.operador_id' => $this->Auth->user('operador_id')],
-    			'finder' => 'ordered',
-    			'limit' => 20
-    	];
-    	
-    	$clases = $this->SeguimientosPrograma->ClasesAlumnos->Clases->find('list')->find('ordered')->contain('Horarios');
-    	
-    	$seguimientosProgramas= $this->paginate($this->SeguimientosPrograma);
-    	
-    	$this->set(compact('seguimientosProgramas','clases','form'));
-    	
-    	$this->render('/SeguimientosPrograma/o_index');
+        $wherePalabraClave= $whereDisciplinas =	$whereClase = $whereFecha = $whereYaCargados
+        = $whereFaltanCargar  = $palabra = $mensaje = $whereHastaHoy =null;
+        
+        $whereOperador = ['Clases.operador_id' => $this->Auth->user('operador_id')];
+        
+        if ($this->request->is('post'))
+        {
+            if(!empty($this->request->getData()) && $this->request->getData() !== null )
+            {
+                if(!empty($this->request->getData()) && $this->request->getData() !== null )
+                {
+                    if ($this->request->getData()['faltantes'])
+                    {
+                        $whereFaltanCargar= 'SeguimientosPrograma.created = SeguimientosPrograma.modified';
+                        $mensaje ['Se buscó por']["Seguimientos :"] = ["Faltantes de cargar"];
+                    }
+                    if ($this->request->getData()['modificados'])
+                    {
+                        $whereYaCargados= 'SeguimientosPrograma.created <> SeguimientosPrograma.modified';
+                        $mensaje ['Se buscó por']["Seguimientos :"] = ["Ya cargados"];
+                    }
+                    if (!(empty($this->request->getData()['disciplinas'])))
+                    {
+                        $disc = $this->request->getData()['disciplinas'];
+                        $whereDisciplinas= ["Clases.disciplina_id = $disc"];
+                        $discTable = TableRegistry::get("Disciplinas");
+                        $disciplina = $discTable->get($disc);
+                        $mensaje ['Se buscó por']["Disciplina :"]=   [$disciplina->descripcion];
+                    }
+                    if (!(empty($this->request->getData()['clases'])))
+                    {
+                        $clase = $this->request->getData()['clases'];
+                        $whereClase= ["clases.id = $clase"];
+                        $clasesTable = TableRegistry::get("Clases");
+                        $clase = $clasesTable->get($clase);
+                        $mensaje ['Se buscó por']["Clase de :"]=   [$clase->presentacionCorta];
+                    }
+                    
+                    $year= $this->request->getData()['year']['year'];
+                    if ($year)
+                    {
+                        $fecha =date('Y-m-d',strtotime("$year-01-01"));
+                        $whereFecha = ["YEAR(fecha) = YEAR('$fecha')"];
+                        $hoy =date('Y-m-d');
+                        $whereHastaHoy = ["DATE(fecha) <=  '$hoy'"];
+                        $mensaje['Se buscó por']["Año :"]=  [date('Y',strtotime($fecha))];
+                    }
+                    else {
+                        $fecha =date('Y-m-d');
+                        $whereFecha = ["YEAR(fecha) = YEAR('$fecha')"];
+                        $hoy =date('Y-m-d');
+                        $whereHastaHoy = ["DATE(fecha) <=  '$hoy'"];
+                        $mensaje['Se buscó por']["Año :"]=  [date('Y',strtotime($fecha))];
+                    }
+                    if (!(empty($this->request->getData()['palabra_clave'])))
+                    {
+                        $palabra = $this->request->getData()['palabra_clave'];
+                        $wherePalabraClave=  ["(alumnos.nombre LIKE '%".addslashes($palabra)."%' OR alumnos.apellido LIKE '%".addslashes($palabra)."%' OR
+								 alumnos.nro_documento LIKE '%".addslashes($palabra)."%' OR  CONCAT_WS(' ',alumnos.nombre ,alumnos.apellido) LIKE '".addslashes($palabra)."'
+		     				OR  CONCAT_WS(' ',alumnos.apellido ,alumnos.nombre) LIKE '".addslashes($palabra)."'
+								)"
+                        ];
+                        $mensaje['Se buscó por']["Alumno :"] = [$palabra] ;
+                    }
+                    
+                    $this->request->session()->write('searchCond', [$whereHastaHoy,$wherePalabraClave,$whereFecha,$whereClase,$whereYaCargados,$whereFaltanCargar,$whereOperador,$whereDisciplinas]);
+                    $this->request->session()->write('search_key', $palabra);
+                }
+            }
+        }
+        if ($this->request->session()->check('searchCond')) {
+            $conditions = $this->request->session()->read('searchCond');
+        } else {
+            $conditions = null;
+        }
+        
+        $this->paginate = [
+            'contain' => ['ClasesAlumnos' => ['Alumnos','Clases' => ['Disciplinas','Horarios' => ['Ciclolectivo'],'Operadores'] ]],
+            'conditions' => [$conditions],
+            'finder' => 'ordered',
+            
+        ];
+        $seguimientosPrograma = $this->paginate($this->SeguimientosPrograma);
+        
+        
+        
+        $this->set(compact('seguimientosPrograma','mensaje'));
+        $this->render('/SeguimientosPrograma/o_index');
     }
 
     public function reset()
@@ -443,12 +475,12 @@ class SeguimientosProgramaController extends AppController
         }
         $this->redirect("/SeguimientosPrograma/index");
     }
-    public function pReset()
+    public function oReset()
     {
         if ($this->request->session()->check('searchCond')) {
             $this->request->session()->delete('searchCond');
         }
-        $this->redirect("/SeguimientosPrograma/p_index");
+        $this->redirect("/SeguimientosPrograma/o_index");
     }
     public function getOperadoresPorAnio() {
         $this->autoRender = false; // We don't render a view in this example

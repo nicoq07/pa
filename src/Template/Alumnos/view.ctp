@@ -111,7 +111,7 @@
 			</div>
 	       
 	    </div>
-	     <div class="related col-lg-10 col-lg-offset-1 panel panel-warning">
+	     <div class="related col-lg-10 col-lg-offset-1 panel-warning">
 	        	<div class="panel-heading">
 			   	 <h4><?= __('Seguimientos de Clases' ) ?></h4>
 			    </div>
@@ -121,17 +121,16 @@
             <table class="col-lg-12 table-striped table-condensed cf">
         		<thead class="cf">
 	            <tr>
+	            	<th width="20%" scope="col"><?= __('Presente') ?></th>
 	                <th width="55%" scope="col"><?= __('Observación') ?></th>
-	                <th width="10%" scope="col"><?= __('Presente') ?></th>
-	                 <th width="20%" scope="col"><?= __('Fecha') ?></th>
-	                <th scope="col" width="15%" class="actions"><?= __('Actions') ?></th>
+	                <th width="15%" scope="col"><?= __('Fecha') ?></th>
+	                <th scope="col" width="10%" class="actions"><?= __('Actions') ?></th>
 	            </tr>
 	            </thead>
 	            <?php foreach ($seguimientos as $seguimiento): ?>
 	            <tr>
-	               
+	                <td data-title="Presente"><?= h($seguimiento->presente) ?></td>
 	                <td data-title="Observación"><?= h($seguimiento->observacion) ?></td>
-	                <td data-title="Presente"><?= $seguimiento->presente ? h("Sí") : h("No") ?></td>
 	                <td data-title="Fecha"><?= __($seguimiento->fecha->format('l')) .' '. $seguimiento->fecha->format('d-m-Y') ?></td>
 	                <td class="actions">
 	                    <?= $this->Html->link(__('Ver'), ['controller' => 'SeguimientosClasesAlumnos', 'action' => 'view', $seguimiento->id],  ['class' => 'btn-sm btn-info']) ?>

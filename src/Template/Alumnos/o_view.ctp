@@ -20,12 +20,10 @@
 	</div>
 	<div class="separador"></div>
 	
-	<div class="col-lg-3 col-md-3 borde view-div"><?= __('Adolescencia') ?></div>
-	<div class="col-lg-3 col-md-3 borde"><?= $alumno->programa_adolecencia ? __('Sí') : __('No'); ?> </div>
 	<div class="col-lg-3 col-md-3 borde view-div"><?= __('Activo') ?></div>
 	<div class="col-lg-3 col-md-3 borde"><?=$alumno->active ? __('Sí') : __('No');?> </div>
 	
-    <div class="panel-body">
+    <div class="col-lg-12 panel-body">
         <h4> <?= __('Clases inscriptas' ) ?></h4>
         <?php if (!empty($alumno->clases)){ ?>
         <table class="table table-striped">
@@ -47,15 +45,15 @@
         <?php if (!empty($seguimientos)){ ?>
         <table class="table table-striped">
             <tr>
+                <th width="25%" scope="col"><?= __('Presente') ?></th>
                 <th width="55%" scope="col"><?= __('Observación') ?></th>
-                <th width="10%" scope="col"><?= __('Presente') ?></th>
                  <th width="20%" scope="col"><?= __('Fecha') ?></th>
             </tr>
             <?php foreach ($seguimientos as $seguimiento): ?>
             <tr>
                
+                <td><?= h($seguimiento->presente); ?></td>
                 <td><?= h($seguimiento->observacion) ?></td>
-                <td><?= $seguimiento->presente ? h("Sí") : h("No") ?></td>
                 <td><?= __($seguimiento->fecha->format('l')) .' '. $seguimiento->fecha->format('d-m-Y') ?></td>
             </tr>
             <?php endforeach; ?>

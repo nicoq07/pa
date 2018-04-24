@@ -12,8 +12,8 @@
 	        <?php
 	        	echo $this->Form->control('id',['type' => 'hidden']);
 	        	echo $this->Form->control('observacion',['label' => 'Observación', 'onfocus' => "this.select()"]);
-	            echo $this->Form->control('presente');
-	        ?>
+	        	echo $this->Form->control('presente', ['type' => 'select', 'options' => $tiposPresentes]);
+	        	?>
 	    </fieldset>
 	    <?= $this->Form->button('Guardar', ['class' => 'btn-lg btn-block btn-success']) ?>
 	    <?= $this->Form->end() ?>
