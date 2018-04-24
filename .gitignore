@@ -39,3 +39,5 @@ nbproject/*
 # Sass preprocessor
 .sass-cache/
 config/bootstrap.php
+
+*.jpg
