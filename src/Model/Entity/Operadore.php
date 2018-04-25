@@ -67,7 +67,8 @@ class Operadore extends Entity
     	s.clase_alumno_id = ca.id AND
     	ca.clase_id = c.id AND
     	c.operador_id = o.id AND
-    	c.horario_id = h.id
+    	c.horario_id = h.id AND
+        s.fue_transferida = 0
     	GROUP BY fecha
     	order by(s.fecha)
     	";

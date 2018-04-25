@@ -218,28 +218,42 @@ class ProfesoresController extends AppController
     	$profesor = $this->Profesores->get($id);
   		$idProfesor = $profesor->id;
 
-		$qClases = "select ca.id  as clasealumno_id,  CONCAT_WS(' ',a.apellido ,a.nombre) as alumno, h.nombre_dia as nom_dia, a.id as alumno_id,
-					 h.hora as hora , c.id clase_id, h.num_dia as dia , d.descripcion as disci	
-				from  horarios as h, seguimientos_clases_alumnos as s, profesores as p, alumnos as a, clases as c, clases_alumnos as ca
-					, disciplinas as d
-					WHERE
-					h.id = c.horario_id AND
-					c.id = ca.clase_id AND
-					c.disciplina_id = d.id AND
-					p.id = $idProfesor AND
-					c.profesor_id = p.id AND
-					ca.alumno_id = a.id AND
-					ca.id = s.clase_alumno_id AND
-					MONTH(s.fecha) = $mes
-					GROUP by ca.id, h.nombre_dia , h.hora
-					ORDER BY h.num_dia, h.hora, alumno";
+  		$qClases = "select test.* from
+        (select ca.id  as clasealumno_id,  CONCAT_WS(' ',a.apellido ,a.nombre) as alumno, h.nombre_dia as nom_dia, a.id as alumno_id,
+    	h.hora as hora , c.id clase_id, h.num_dia as dia , d.descripcion as disci
+    	from  horarios as h, seguimientos_programas as s, profesores as p, alumnos as a, clases as c, clases_alumnos as ca
+    	, disciplinas as d , ciclolectivo as ciclo
+    	WHERE
+    	h.id = c.horario_id AND
+    	c.id = ca.clase_id AND
+    	c.disciplina_id = d.id AND
+    	p.id = $idProfesor AND
+    	c.profesor_id = p.id AND
+    	ca.alumno_id = a.id AND
+    	ca.id = s.clase_alumno_id AND
+    	ciclo.id = h.ciclolectivo_id AND
+    	MONTH(s.fecha) = $mes AND
+    	YEAR(ciclo.fecha_inicio) = YEAR(CURDATE())	AND
+        s.fue_transferida = 0
+        UNION
+        select '', '-SIN ALUMNOS-', h.nombre_dia as nom_dia,'', h.hora as hora , c.id clase_id, h.num_dia as dia , d.descripcion as disci
+        from horarios as h, profesores as p, clases as c , disciplinas as d , ciclolectivo as ciclo
+        WHERE h.id = c.horario_id AND
+        c.id NOT IN (SELECT clase_id from clases_alumnos) AND
+        c.disciplina_id = d.id
+        AND p.id = $idProfesor
+        AND c.profesor_id = p.id
+        AND ciclo.id = h.ciclolectivo_id
+        AND YEAR(ciclo.fecha_inicio) = YEAR(CURDATE()) ) as test
+       GROUP by test.clasealumno_id, test.nom_dia , test.hora
+        ORDER BY test.dia, test.hora, test.alumno";
     	
 		$rClases = $connection->execute($qClases);
 		
 		
 		
 		$qPresentes = "SELECT ca.id as ca, DATE_FORMAT(s.fecha, '%d') as fecha, s.presente, a.id as alumno_id, s.created as creada, s.modified as modificada, c.id as clase_id
- 		from  horarios as h, seguimientos_clases_alumnos as s, profesores as p, alumnos as a, clases as c, clases_alumnos as ca
+ 		from  horarios as h, seguimientos_programas as s, profesores as p, alumnos as a, clases as c, clases_alumnos as ca
  		, disciplinas as d
 		WHERE
 		h.id = c.horario_id AND
@@ -249,6 +263,7 @@ class ProfesoresController extends AppController
 		c.profesor_id = p.id AND
 		ca.alumno_id = a.id AND
 		ca.id = s.clase_alumno_id AND
+        s.fue_transferida = 0
 		MONTH(s.fecha) = $mes
 		ORDER BY  alumno_id, fecha";
 		
@@ -258,7 +273,7 @@ class ProfesoresController extends AppController
 		
 //  		debug($arrayPresentes); exit;
 		
-		$qClases = "SELECT * FROM view_clases as v WHERE v.profesor_id = $idProfesor
+		$qClases = "SELECT * FROM view_a_clases as v WHERE v.profesor_id = $idProfesor
 		ORDER BY dia,hora";
 
 		$clasesD = $connection->execute($qClases);

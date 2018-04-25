@@ -366,6 +366,118 @@ class AlumnosController extends AppController
     	return $this->redirect(['action' => 'index']);
     }
     
+    public function transferirClase($id = null, $claseId = null)
+    {
+        $alumno = null;
+        $clase = null;
+        /* Tengo que agregarlo a la clase nueva,crear los segumientos ,crear un seguimiento para la fecha de hoy (en caso que no exista) ,
+         * copiar la observación de todos los seguimientos anteriores, junto con la fecha y ponerlo en el seguimiento creado.
+         * Agregar en la observación del alumno que hoy, fue cambiado de clase por tal personal y trasferido de tal a tal lado.
+         * Tengo que quitarlo de la clase anterior
+         */
+        if ($this->request->is('post'))
+        {
+            if (! ($this->request->getData('clases')[0]> 0))
+            {
+                $this->Flash->error('Seleccione la clase nueva');
+                return $this->redirect($this->referer());
+            }
+            $idClaseAnterior = $this->request->getData('clase_id');
+            
+            $idClaseNueva = $this->request->getData('clases')[0];
+            
+            /* Me traigo los ids de clases nuevas , viejas y del alumno */
+            $claseAnterior = $this->request->getData('clase_id');
+            $claseNueva = $this->request->getData('clases')[0];
+            $alumno_id = $this->request->getData('alumno_id');
+            $alumno = $this->Alumnos->get($alumno_id);
+            
+            /* Me traigo la clase anterior*/
+            $claseAnterior = $this->Alumnos->Clases->get($idClaseAnterior);
+            
+            /* La clase nueva */
+            $claseNueva = $this->Alumnos->Clases->get($idClaseNueva);
+            
+            /* objeto clase anterior */
+            $claseAnteriorList = $this->Alumnos->Clases->find()->where(['id' => $claseAnterior->id])->toList();
+            
+            /* CA anterior */
+            $clase_alumno_id_anterior = TableRegistry::get('ClasesAlumnos')->find()->select(['id'])
+            ->where(['ClasesAlumnos.clase_id' => $claseAnterior->id, 'ClasesAlumnos.alumno_id' => $alumno_id])
+            ->all()->toList()[0]->id;
+            
+            /* tabla Seguimientos */
+            $Seguimientos = TableRegistry::get('SeguimientosPrograma');
+            
+            /* Borro los seguimientos posteriores a hoy de la CA anterior */
+            $ids = null;
+            $ids = $Seguimientos->find()
+            ->select(['SeguimientosPrograma.id'])
+            ->where(["DATE(SeguimientosPrograma.fecha) > " => date('Y-m-d'),
+                'SeguimientosPrograma.clase_alumno_id' => $clase_alumno_id_anterior]);
+            
+            $checkBorrado = $Seguimientos->deleteAll(['SeguimientosPrograma.id IN' => $ids->extract('id')->toList()]);
+            
+            if (!$checkBorrado) {
+                $this->Flash->error("Seguimientos posteriores no borrados");
+            }
+            
+            /* Creo la CA nueva*/
+            $claseNuevaList = $this->Alumnos->Clases->find()->where(['id' => $claseNueva->id])->toList();
+            $checkClaseNueva = $this->Alumnos->Clases->link($alumno, $claseNuevaList);
+            
+            /* obtengo CA Nueva */
+            $clase_alumno_id_nueva = TableRegistry::get('ClasesAlumnos')->find()->select(['id'])
+            ->where(['ClasesAlumnos.clase_id' => $claseNueva->id, 'ClasesAlumnos.alumno_id' => $alumno_id])
+            ->all()->toList()[0]->id;
+            
+            /* Actualizo los seguimientos anterior a hoy de la CA anterior */
+            $ids = null;
+            $ids = $Seguimientos->find()
+            ->select(['id'])
+            ->where(['DATE(SeguimientosPrograma.fecha) <= ' => date('Y-m-d'),
+                'SeguimientosPrograma.clase_alumno_id' => $clase_alumno_id_anterior]);
+            
+            $checkActualizacion = $Seguimientos
+            ->updateAll(['clase_alumno_id' => $clase_alumno_id_nueva, 'fue_transferida' => true], ['SeguimientosPrograma.id IN' => $ids->extract('id')->toList()]);
+            
+            if (!$checkActualizacion)
+            {
+                $this->Flash->error("Seguimientos anteriores no actualizados");
+            }
+            
+            $checkNuevosSeguimientos= $this->insertarSeguimientoPrograma($alumno_id, [0 => $claseNueva->id], true);
+            
+            $checkUnlinkClaseVieja = $this->Alumnos->Clases->unlink($alumno, $claseAnteriorList);
+            
+            if ($checkActualizacion && $checkBorrado && $checkClaseNueva && $checkNuevosSeguimientos && $checkUnlinkClaseVieja )
+            {
+                $this->Flash->success('Alumno/a tranferido con éxito');
+                $this->redirect(['action' => 'view', $alumno_id]);
+                
+            }
+            else
+            {
+                $this->Flash->error('Error al tranferir al alumno/a');
+                $this->redirect(['action' => 'view', $alumno_id]);
+                
+            }
+            
+            
+        }
+        else
+        {
+            if (!empty($id) || !empty($claseId))
+            {
+                $alumno = $this->Alumnos->get($id);
+                $clase = $this->Alumnos->Clases->get($claseId);
+            }
+        }
+        $operadores = TableRegistry::get('Operadores')->find('list')->where(['active' => true]);
+        $this->set(compact('alumno','operadores','clase'));
+        
+        
+    }
     public function oIndex()
     {
     	
@@ -575,7 +687,7 @@ class AlumnosController extends AppController
 
 
 	
-	private function insertarSeguimientoPrograma($idAlumno, $idsClases)
+	private function insertarSeguimientoPrograma($idAlumno, $idsClases, $esTranferencia = false)
 	{
 		$alumno = $this->Alumnos->get($idAlumno);
 		
@@ -604,7 +716,7 @@ class AlumnosController extends AppController
 			//Me traigo el obj de claseAlumno con todas las propiedasdes y asociaciones
 			$claseAlumno = $ClasesAlumno->get($idClaseAlumno->first()->id,['contain' => ['Clases' => ['Horarios' => 'Ciclolectivo'] ] ]);
 			
-			if(!$claseAlumno->existeSeguimientoPrograma())
+			if(!$claseAlumno->existeSeguimientoPrograma() || $esTranferencia)
 			{
 				//Creo las fechas de incio y fin para  recorrerlas
 				$fechaInicio = strtotime(date('Y-m-d'));
@@ -656,8 +768,8 @@ class AlumnosController extends AppController
 		$discs = TableRegistry::get('Disciplinas')->find('all')
 	//	->select(['Disciplinas.id' => 'id','Disciplinas.descripcion' => 'desc' ])
 		->distinct('Disciplinas.descripcion')
-		->matching('Clases')
-		->where(['Clases.operador_id' => $operador_id])
+		->matching('Clases.Horarios.Ciclolectivo')
+		->where(['Clases.operador_id' => $operador_id, 'YEAR(Ciclolectivo.fecha_inicio)' => date('Y')])
 		->order('Disciplinas.descripcion')
 		;
 		$i = 0;
@@ -681,8 +793,9 @@ class AlumnosController extends AppController
 		$disciplina_id = $this->request->getQuery('disciplina_id');
 		$operador_id= $this->request->getQuery('operador_id');
 		$clases = TableRegistry::get('Clases')->find('all')
-		->contain(['Disciplinas','Horarios'])
+		->contain(['Disciplinas','Horarios'=> ['Ciclolectivo']])
 		->where(['Clases.operador_id' => $operador_id, 'Clases.disciplina_id' => $disciplina_id])
+		->find('currentYear')
 		->order('Horarios.num_dia','Horarios.hora')
 		;
 		$i = 0;

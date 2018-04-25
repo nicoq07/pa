@@ -178,6 +178,7 @@ class OperadoresController extends AppController
     	ca.alumno_id = a.id AND
     	ca.id = s.clase_alumno_id AND
     	ciclo.id = h.ciclolectivo_id AND
+        s.fue_transferida = 0 AND
     	MONTH(s.fecha) = $mes AND
     	YEAR(ciclo.fecha_inicio) = YEAR(CURDATE())
         UNION
@@ -208,6 +209,7 @@ class OperadoresController extends AppController
     	ca.alumno_id = a.id AND
     	ca.id = s.clase_alumno_id AND
     	ciclo.id = h.ciclolectivo_id AND
+        s.fue_transferida = 0 AND
     	MONTH(s.fecha) = $mes AND
     	YEAR(ciclo.fecha_inicio) = YEAR(CURDATE())
     	ORDER BY  alumno_id, fecha";

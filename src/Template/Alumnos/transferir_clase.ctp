@@ -9,9 +9,9 @@
 <div class='co-lg-12 panel-body'>
 	<div class='col-lg-12'> &nbsp;</div>
 	<div class="col-lg-12" id="div-clases"> 
-		         	<div id = 'sprofesor' class= "col-lg-4">
+		         	<div id = 'soperador' class= "col-lg-4">
 					<?php 
-			       	 echo $this->Form->control('profesores',['id' => 'profesores', 'option' => $profesores, 'label' => 'Profesores','empty' => 'Seleccione profesor','onchange' => 'buscarDisciplinas()']);
+			       	 echo $this->Form->control('operadores',['id' => 'operadores', 'option' => $operadores, 'label' => 'Operadores','empty' => 'Seleccione operador','onchange' => 'buscarDisciplinas()']);
 			        ?>
 		         	</div>
 		         	<div id = 'sdisciplina' class= "col-lg-4">
@@ -37,13 +37,13 @@ echo $this->Form->end();?>
 <script type="text/javascript">
 function getDiaHorario()
 {
-	var idDisciplina = $( "#disciplinas" ).val();
-	var profesor_id = $( "#profesores" ).val();
+	var disciplina_id = $( "#disciplinas" ).val();
+	var operador_id = $( "#operadores" ).val();
 	 $.ajax({
        url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'Alumnos','action'=>'getDiaHorario'));?>",
 
 	        type: "get",
-	        data: {profesor_id:profesor_id,idDisciplina:idDisciplina },
+	        data: {operador_id:operador_id,disciplina_id:disciplina_id },
 	        success: function(data) {
 	        	var array = data.split('.');
 	        	var sel = $('#clases');
@@ -65,11 +65,11 @@ function getDiaHorario()
 
 function buscarDisciplinas()
 {
-	var profesor_id = $( "#profesores" ).val();
+	var operador_id = $( "#operadores" ).val();
     $.ajax({
        url: "<?php echo \Cake\Routing\Router::url(array('controller'=>'Alumnos','action'=>'getDisciplinas'));?>",
         type: "get",
-        data: {profesor_id:profesor_id},
+        data: {operador_id:operador_id},
         success: function(data) {
         	var array = data.split('.');
       		var sel = $('#disciplinas');
