@@ -1,0 +1,1 @@
+ALTER TABLE seguimientos_programa MODIFY COLUMN `presente` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL;
