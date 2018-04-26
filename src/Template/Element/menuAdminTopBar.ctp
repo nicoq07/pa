@@ -84,6 +84,7 @@
 	          <ul class="dropdown-menu forAnimate" role="menu">
 	            <li><?= $this->Html->link(h('Ver seguimientos'), ['controller' =>'SeguimientosPrograma', 'action' => 'index']) ?></li>
 	            <li><?= $this->Html->link(h('Informe'), ['controller' =>'SeguimientosPrograma', 'action' => 'informe'],['target' => '_blank' ]) ?></li>
+	            <li><?= $this->Html->link(h('Presentes'), ['controller' =>'SeguimientosPrograma', 'action' => 'presentes'],['target' => '_blank' ]) ?></li>
 	         	<li class="divider"></li>
 	           	 <li><?= $this->Html->link(h('Nueva calificación'), ['controller' =>'calificaciones', 'action' => 'add']) ?></li>
 	           	 <li><?= $this->Html->link(h('Ver calificaciones'), ['controller' =>'calificaciones', 'action' => 'index']) ?></li>

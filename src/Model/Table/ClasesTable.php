@@ -64,6 +64,11 @@ class ClasesTable extends Table
         $this->hasMany('ViewClases', [
             'foreignKey' => 'clase_id'
         ]);
+        $this->belongsToMany('SeguimientosPrograma', [
+            'foreignKey' => 'clase_id',
+            'targetForeignKey' => 'clase_alumno_id',
+            'joinTable' => 'clases_alumnos'
+        ]);
         $this->belongsToMany('Alumnos', [
             'foreignKey' => 'clase_id',
             'targetForeignKey' => 'alumno_id',

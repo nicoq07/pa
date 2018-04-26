@@ -43,6 +43,7 @@ class SeguimientosProgramaTable extends Table
         $this->belongsTo('ClasesAlumnos', [
             'foreignKey' => 'clase_alumno_id'
         ]);
+        
     }
 
     /**

@@ -467,6 +467,45 @@ class SeguimientosProgramaController extends AppController
         $this->set(compact('seguimientosPrograma','mensaje'));
         $this->render('/SeguimientosPrograma/o_index');
     }
+    
+    public function presentes()
+    {
+        
+        if ($this->request->is('post'))
+        {
+            if ($this->request->getData('operadores'))
+            {
+                $id_operador = $this->request->getData('operadores');
+                return  $this->redirect(['action' => 'listado_presentes_pdf',$id_operador,'_ext' => 'pdf']);
+            }
+            else {
+                $this->Flash->error("Seleccione operador/ra.");
+            }
+        }
+        
+        $this->set('seg');
+        
+    }
+    
+    public function listadoPresentesPdf($id_operador)
+    {
+        $Alumnos = TableRegistry::get('Alumnos');
+        $alumnos = $Alumnos->find()
+        ->contain(['SeguimientosPrograma' => ['ClasesAlumnos' => ['Clases' => ['Disciplinas','Operadores' => [ 'conditions'  => [ 'operador_id' => $id_operador]],'Horarios' => ['Ciclolectivo' => [ 'conditions'  => [ 'YEAR(fecha_inicio)' => date('Y')]]]]], 'conditions' => ['DATE(SeguimientosPrograma.fecha) <=' => date('Y-m-d')] ]])
+        ->toArray();
+        $presentes = null;
+        $this->loadComponent('TipoPresentes');
+        foreach ($alumnos as $alumno)
+        {
+            foreach ($alumno->seguimientos_programa as $seguimiento)
+            {
+                $presentes[$alumno->presentacion][$seguimiento->fecha->format('j/n')] = $this->TipoPresentes->getCodigoPresente($seguimiento->presente);
+            }
+        }
+        $this->prepararListadoPresentes("a" , "A4", "Landscape");
+       $this->set(compact('presentes'));
+    }
+    
     public  function informe()
     {
         if ($this->request->is('post'))
@@ -652,6 +691,21 @@ class SeguimientosProgramaController extends AppController
                 'pageSize' => $tipoHoja,
                 'orientation' => $orientacion,
                 'filename' => "Seguimientos  de ".$alumno.' en '.$clase.'.pdf'
+            ]
+        ]);
+    }
+    
+    private function prepararListadoPresentes($alumno,$tipoHoja,$orientacion)
+    {
+        $this->viewBuilder()->setOptions([
+            'pdfConfig' => [
+                'margin-bottom' => 0,
+                'margin-right' => 0,
+                'margin-left' => 0,
+                'margin-top' => 0,
+                'pageSize' => $tipoHoja,
+                'orientation' => $orientacion,
+                'filename' => "Seguimientos  de ".$alumno.'.pdf'
             ]
         ]);
     }
