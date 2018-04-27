@@ -37,7 +37,6 @@ function getOperadoresPorAnio()
 	  		  echo $this->Form->year('year',['empty' => 'Año','id' => 'year','name' => 'year','maxYear' => date('Y'),'onchange' => 'getOperadoresPorAnio();']);
 	          ?>
           </div> 
-          
            <div class="col-lg-12" id="div-clases"> 
 	 	<div id = 'sprofesor' class= "col-lg-12">
 			<?php 
@@ -45,6 +44,21 @@ function getOperadoresPorAnio()
 	       		 echo $this->Form->select('operadores',['empty' => 'Seleccione ...'],['id' => 'operadores','name' => 'operadores']);
 	        ?>
         </div>
+        <div class="col-lg-12" > 
+    		<div class="col-lg-4 col-lg-offset-2" > 
+    	  		  <?php
+    	  		  $this->Form->templates(
+    	  		      ['dateWidget' => '{{month}}']
+    	  		      );
+    	  		  echo $this->Form->control('fecha_inicio', ['label' => 'Mes inicio', 'empty' => false, 'type' => 'date' ,'dateFormat' => 'DMY']);
+    	  		  ?>
+            </div> 
+            <div class="col-lg-4" > 
+    	  		  <?php
+    	  		  echo $this->Form->control('fecha_fin', ['label' => 'Mes fin', 'empty' => false, 'type' => 'date' ,'dateFormat' => 'DMY']);
+    	  		  ?>
+            </div> 
+		</div>      
 	 </div>
 		  <?= $this->Form->button(__('Ver')) ?>
 	    <?= $this->Form->end() ?>

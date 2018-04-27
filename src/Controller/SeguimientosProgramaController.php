@@ -476,7 +476,14 @@ class SeguimientosProgramaController extends AppController
             if ($this->request->getData('operadores'))
             {
                 $id_operador = $this->request->getData('operadores');
-                return  $this->redirect(['action' => 'listado_presentes_pdf',$id_operador,'_ext' => 'pdf']);
+                $year = $this->request->getData('year')['year'];
+                $mes_inicio = $this->request->getData('fecha_inicio')['month'];
+                $mes_fin = $this->request->getData('fecha_fin')['month'];
+                
+                $fecha_inicio = $year.$mes_inicio;
+                $fecha_fin = $year.$mes_fin;
+                
+                return  $this->redirect(['action' => 'listado_presentes_pdf',$id_operador,$fecha_inicio,$fecha_fin,'_ext' => 'pdf']);
             }
             else {
                 $this->Flash->error("Seleccione operador/ra.");
@@ -487,23 +494,36 @@ class SeguimientosProgramaController extends AppController
         
     }
     
-    public function listadoPresentesPdf($id_operador)
+    public function listadoPresentesPdf($id_operador,$fecha_inicio,$fecha_fin)
     {
         $Alumnos = TableRegistry::get('Alumnos');
         $alumnos = $Alumnos->find()
-        ->contain(['SeguimientosPrograma' => ['ClasesAlumnos' => ['Clases' => ['Disciplinas','Operadores' => [ 'conditions'  => [ 'operador_id' => $id_operador]],'Horarios' => ['Ciclolectivo' => [ 'conditions'  => [ 'YEAR(fecha_inicio)' => date('Y')]]]]], 'conditions' => ['DATE(SeguimientosPrograma.fecha) <=' => date('Y-m-d')] ]])
+        ->contain(['SeguimientosPrograma' => 
+                        ['ClasesAlumnos' => 
+                            ['Clases' => ['Disciplinas','Operadores' =>
+                                                            [ 'conditions'  => [ 'operador_id' => $id_operador]],
+                                            'Horarios' ]],
+                            'conditions' => ['EXTRACT(YEAR_MONTH FROM SeguimientosPrograma.fecha) >=' => $fecha_inicio,'EXTRACT(YEAR_MONTH FROM SeguimientosPrograma.fecha) <=' => $fecha_fin ] ]])
         ->toArray();
+        
+       
+        
         $presentes = null;
         $this->loadComponent('TipoPresentes');
         foreach ($alumnos as $alumno)
         {
             foreach ($alumno->seguimientos_programa as $seguimiento)
             {
-                $presentes[$alumno->presentacion][$seguimiento->fecha->format('j/n')] = $this->TipoPresentes->getCodigoPresente($seguimiento->presente);
+                $presentes[$alumno->presentacion][__($seguimiento->fecha->format('F'))][$seguimiento->fecha->format('d')] = $this->TipoPresentes->getCodigoPresente($seguimiento->presente);
             }
         }
+        if( !(count($presentes) > 0) )
+        {
+            return $this->redirect(['action' => 'presentes']);
+        }
+        $operador = TableRegistry::get('Operadores')->get($id_operador);
         $this->prepararListadoPresentes("a" , "A4", "Landscape");
-       $this->set(compact('presentes'));
+       $this->set(compact('presentes','operador'));
     }
     
     public  function informe()
