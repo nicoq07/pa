@@ -519,7 +519,7 @@ class SeguimientosProgramaController extends AppController
         }
         if( !(count($presentes) > 0) )
         {
-            $this->Flash->error('No hay seguimientos cargados.')
+            $this->Flash->error('No hay seguimientos cargados.');
             return $this->redirect(['action' => 'presentes']);
         }
         $operador = TableRegistry::get('Operadores')->get($id_operador);
