@@ -86,20 +86,20 @@ class OperadoresController extends AppController
      */
     public function edit($id = null)
     {
-        $operadore = $this->Operadores->get($id, [
+        $operador = $this->Operadores->get($id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $operadore = $this->Operadores->patchEntity($operadore, $this->request->getData());
-            if ($this->Operadores->save($operadore)) {
-                $this->Flash->success(__('The operadore has been saved.'));
+            $operador = $this->Operadores->patchEntity($operador, $this->request->getData());
+            if ($this->Operadores->save($operador)) {
+                $this->Flash->success(__('Operador guardado!.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The operadore could not be saved. Please, try again.'));
+            $this->Flash->error(__('Ha ocurrido un error, reintente.'));
         }
-        $this->set(compact('operadore'));
-        $this->set('_serialize', ['operadore']);
+        $this->set(compact('operador'));
+        $this->set('_serialize', ['operador']);
     }
 
     /**

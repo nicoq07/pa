@@ -1,5 +1,5 @@
 	<div class="col-lg-6 col-lg-offset-3 panel panel-info">
-	<div class="panel-heading"><h3><?= __('Modificar Profesor/a') ?></h3></div>
+	<div class="panel-heading"><h3><?= __('Modificar Operador/a') ?></h3></div>
 	    <?= $this->Form->create($operador) ?>
 	    <fieldset>
 	      
