@@ -36,6 +36,9 @@ use App\Model\Table\AlumnosTable;
  * @property \Cake\I18n\FrozenTime $modified
  * @property bool $active
  * @property string $referencia_foto
+ * @property string $nacionalidad
+ * @property string $cobertura_medica
+ * @property bool $trabaja
  *
  * @property \App\Model\Entity\PagosAlumno[] $pagos_alumnos
  * @property \App\Model\Entity\Clase[] $clases

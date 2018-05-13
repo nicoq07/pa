@@ -174,9 +174,28 @@
  <!------------------------ FIN SECCION PADRES -->
 	         <div class="col-lg-8 col-lg-offset-2"> 
 	         <?php
-	         echo $this->Form->control('colegio');
+	         echo $this->Form->control('colegio',['label' => 'Estudios']);
 			 ?>
 	         </div> 
+	         <div class="col-lg-8 col-lg-offset-2"> 
+	         <?php
+	         echo $this->Form->control('cobertura_medica');
+			 ?>
+	         </div> 
+	         <div class="col-lg-8 col-lg-offset-2"> 
+	         <?php
+	         echo $this->Form->control('nacionalidad');
+			 ?>
+	         </div> 
+	         <div class="col-lg-8 col-lg-offset-2"> 
+	         <?php
+	         echo $this->Form->control('trabaja');
+			 ?>
+	         </div> 
+	         
+	         
+	         
+	         
 	         <div class="col-lg-12" id="div-clases"> 
 		         	<div id = 'sprofesor' class= "col-lg-4">
 					<?php 

@@ -67,14 +67,27 @@
 		<div class="col-lg-3 col-md-3 borde view-div"><?= __('Alta') ?></div>
 		<div class="col-lg-3 col-md-3  borde"><?= h($alumno->created->format('d/m/Y')) ?> </div>
 <!--  12 -->		
-		<div class="col-lg-2 col-md-2 borde view-div"><?= __('Modificado') ?></div>
-		<div class="col-lg-4 col-md-4  borde"><?= $alumno->modified ? h($alumno->modified->format('d/m/Y')) :"-"  ?> </div>
-		<div class="col-lg-3 col-md-3 borde view-div"><?= __('Activo') ?></div>
-		<div class="col-lg-3 col-md-3 borde"><?=$alumno->active ? __('Sí') : __('No');?> </div>
+
+<!--  12 --> 
+	 	<div class="col-lg-2 col-md-2 borde view-div"><?= __('Nacionalidad') ?></div>
+		<div class="col-lg-4 col-md-4  borde"><?= h($alumno->nacionalidad); ?> </div>
+		<div class="col-lg-3 col-md-3 borde view-div"><?= __('Cobertura Médica') ?></div>
+		<div class="col-lg-3 col-md-3 borde"><?=h($alumno->cobertura_medica);?> </div>
+	 <div class="col-lg-3 col-md-3 borde view-div"><?= __('Trabaja') ?></div>
+		<div class="col-lg-3 col-md-3 borde"><?=$alumno->trabaja ? __('Sí') : __('No');?> </div>
+		
+		<div class="col-lg-3 col-md-3 borde view-div"><?= __('Fecha Baja') ?></div>
+		<div class="col-lg-3 col-md-3 borde"><?=$alumno->fecha_baja ? h($alumno->fecha_baja->format('d/m/Y')) : "-" ?> </div>
+		<div class="col-lg-3 col-md-3 borde view-div"><?= __('Alta') ?></div>
+		<div class="col-lg-3 col-md-3  borde"><?= h($alumno->created->format('d/m/Y')) ?> </div>
+		
 	    <div class="col-lg-12 col-md-12">
 	        <h4><?= __('Observación') ?></h4>
 	       <div class="separador"><?= $this->Text->autoParagraph(h($alumno->observacion)); ?></div>
 	    </div>
+	    
+		
+		
 </div>
 	    
 	    <div class="related col-lg-10 col-lg-offset-1 panel-danger">
