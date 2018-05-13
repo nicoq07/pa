@@ -65,7 +65,7 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => ['Roles', 'PagosAlumnos']
+            'contain' => ['Roles']
         ]);
 
         $this->set('user', $user);
@@ -155,7 +155,18 @@ class UsersController extends AppController
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $roles = $this->Users->Roles->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'roles'));
+       
+        
+        $profesores= $this->Users->Profesores
+        ;
+        
+        
+        
+        $operadores= $this->Users->Operadores
+        ->find('list')
+       ;
+        
+        $this->set(compact('user', 'roles','profesores','operadores'));
         $this->set('_serialize', ['user']);
     }
 
