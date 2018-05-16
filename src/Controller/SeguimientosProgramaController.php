@@ -112,7 +112,7 @@ class SeguimientosProgramaController extends AppController
                     $wherePalabraClave=  ["(alumnos.nombre LIKE '%".addslashes($palabra)."%' OR alumnos.apellido LIKE '%".addslashes($palabra)."%' OR
 							 alumnos.nro_documento LIKE '%".addslashes($palabra)."%' OR  CONCAT_WS(' ',alumnos.nombre ,alumnos.apellido) LIKE '".addslashes($palabra)."'
 	     				OR  CONCAT_WS(' ',alumnos.apellido ,alumnos.nombre) LIKE '".addslashes($palabra)."'
-							OR profesores.nombre LIKE '%".addslashes($palabra)."%'  OR profesores.apellido LIKE '%".addslashes($palabra)."%') 
+							OR profesores.nombre LIKE '%".addslashes($palabra)."%'  OR profesores.apellido LIKE '%".addslashes($palabra)."%' 
 							OR operadores.nombre LIKE '%".addslashes($palabra)."%'  OR operadores.apellido LIKE '%".addslashes($palabra)."%') "
                     ];
                     $mensaje['Se buscó por']["Alumno :"] = [$palabra] ;
@@ -440,6 +440,7 @@ class SeguimientosProgramaController extends AppController
 		     				OR  CONCAT_WS(' ',alumnos.apellido ,alumnos.nombre) LIKE '".addslashes($palabra)."'
 								)"
                         ];
+                       
                         $mensaje['Se buscó por']["Alumno :"] = [$palabra] ;
                     }
                     
