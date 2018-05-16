@@ -19,7 +19,7 @@ class SeguimientosProgramaController extends AppController
 	{
 		if(isset($user['rol_id']) &&  $user['rol_id'] == OPERADOR)
 		{
-			if(in_array($this->request->action, ['oIndex','edit','view','oSearch','addProfesor','oReset','oPorDia','oCargaMultiple','getDisciplinas', 'getDiaHorario']))
+			if(in_array($this->request->action, ['oIndex','edit','view','oSearch','addProfesor','oReset','oPorDia','addOperador','oCargaMultiple','getDisciplinas', 'getDiaHorario']))
 			{
 				return true;
 			}
@@ -39,7 +39,7 @@ class SeguimientosProgramaController extends AppController
         $this->paginate = [
             'contain' => ['ClasesAlumnos' => ['Alumnos','Clases' => ['Disciplinas','Horarios','Profesores','Operadores'] ]],
             'conditions' => ['fecha' => date('Y-m-d') ],
-            'order' => ['Horarios.hora'],
+            'finder' => 'ordered',
             'limit' => 20
         ];
         $mensaje[0]= 'Seguimientos del día de hoy.';
@@ -136,6 +136,7 @@ class SeguimientosProgramaController extends AppController
         $this->paginate = [
             'contain' => ['ClasesAlumnos' => ['Alumnos','Clases' => ['Disciplinas','Horarios','Profesores','Operadores'] ]],
             'conditions' => $conditions,
+            'finder' => 'ordered',
             'limit' => 20
         ];
         
@@ -174,17 +175,69 @@ class SeguimientosProgramaController extends AppController
         if ($this->request->is('post')) {
             $seguimientosPrograma = $this->SeguimientosPrograma->patchEntity($seguimientosPrograma, $this->request->getData());
             if ($this->SeguimientosPrograma->save($seguimientosPrograma)) {
-                $this->Flash->success(__('The seguimientos programa has been saved.'));
-
+                $modified = $seguimientosPrograma->modified;
+                date_add($modified, date_interval_create_from_date_string('1 minutes'));
+                $seguimientosPrograma->set('modified',$modified);
+                if ($this->SeguimientosPrograma->save($seguimientosPrograma)) {
+                 $this->Flash->success(__('Seguimiento guardado.'));
+                 
+                }
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The seguimientos programa could not be saved. Please, try again.'));
+            $this->Flash->error(__('El seguimiento no pudo ser guardado.'));
         }
-        $clasesAlumnos = $this->SeguimientosPrograma->ClasesAlumnos->find('list', ['limit' => 200]);
-        $this->set(compact('seguimientosPrograma', 'clasesAlumnos'));
+        $clasesAlumnos = $this->SeguimientosPrograma->ClasesAlumnos->find('list')
+        ->contain(['Alumnos','Clases' => 
+                                        ['Horarios' => ['Ciclolectivo' =>
+                                                             ['conditions' => ['YEAR(fecha_inicio)' => date('Y')]]]]
+            
+        ])
+        ;
+        $this->loadComponent('TipoPresentes');
+        $tiposPresentes = $this->TipoPresentes->getArrayTipoPresentes();
+        
+        $this->set(compact('seguimientosPrograma', 'clasesAlumnos','tiposPresentes'));
         $this->set('_serialize', ['seguimientosPrograma']);
     }
-
+    
+    public function addOperador()
+    {
+        $this->autoRender = false;
+        $whereOperador = null;
+            $operador_id = $this->Auth->user('operador_id');
+            $whereOperador = ['conditions' => ['Clases.operador_id' => $operador_id]];
+        
+        $seguimientosPrograma = $this->SeguimientosPrograma->newEntity();
+        if ($this->request->is('post')) {
+            $seguimientosPrograma = $this->SeguimientosPrograma->patchEntity($seguimientosPrograma, $this->request->getData());
+            if ($this->SeguimientosPrograma->save($seguimientosPrograma)) {
+                $modified = $seguimientosPrograma->modified;
+                date_add($modified, date_interval_create_from_date_string('1 minutes'));
+                $seguimientosPrograma->set('modified',$modified);
+                if ($this->SeguimientosPrograma->save($seguimientosPrograma)) {
+                    $this->Flash->success(__('Seguimiento guardado.'));
+                    
+                }
+                return $this->redirect(['action' => 'oIndex']);
+                
+            }
+            $this->Flash->error(__('El seguimiento no pudo ser guardado.'));
+        }
+        $clases = TableRegistry::get('Clases')->find()->select(['Clases.id'])
+        ->contain(['Horarios' => ['Ciclolectivo' =>['conditions' => ['YEAR(fecha_inicio)' => date('Y')]]]])
+        ->where(['Clases.operador_id' => $operador_id]);
+        
+        
+        $clasesAlumnos = $this->SeguimientosPrograma->ClasesAlumnos->find('list')
+        ->contain(['Alumnos'])
+        ->where(['ClasesAlumnos.clase_id' => $clases])
+        ;
+        $this->loadComponent('TipoPresentes');
+        $tiposPresentes = $this->TipoPresentes->getArrayTipoPresentes();
+        
+        $this->set(compact('seguimientosPrograma', 'clasesAlumnos','tiposPresentes'));
+        $this->render('/SeguimientosPrograma/add');
+    }
 
     /**
      * Delete method

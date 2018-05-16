@@ -39,6 +39,7 @@
 	          <ul class="dropdown-menu forAnimate" role="menu">
 	            <li><?= $this->Html->link(h('Ver seguimientos'), ['controller' =>'SeguimientosPrograma', 'action' => 'oIndex']) ?></li>
 	            <li><?= $this->Html->link(h('Ver por día'), ['controller' =>'SeguimientosPrograma', 'action' => 'oPorDia']) ?></li>
+	            <li><?= $this->Html->link(h('Agregar Manualmente'), ['controller' =>'SeguimientosPrograma', 'action' => 'addOperador', $current_user['operador_id']]) ?></li>
 	          </ul>
 	        </li>
 	         <!--  FIN SECCION SEGUIMIENTOS-->

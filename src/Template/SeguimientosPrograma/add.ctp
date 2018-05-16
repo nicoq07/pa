@@ -1,27 +1,19 @@
-<?php
-/**
-  * @var \App\View\AppView $this
-  */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Seguimientos Programa'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Clases Alumnos'), ['controller' => 'ClasesAlumnos', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Clases Alumno'), ['controller' => 'ClasesAlumnos', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="seguimientosPrograma form large-9 medium-8 columns content">
+<div class="col-lg-6 col-lg-offset-3 panel panel-info">
+	<div  class="col-lg-12 panel-heading">  <h3><?= __('Nuevo seguimiento') ?></h3></div>
+	<div  class="col-lg-12 alert alert-danger"> <?= h("ATENCIÓN : Esta opción debe usarse solamente cuando el seguimiento no se encuentra ya generado en VER SEGUIMIENTOS."); ?></div>
+		<div  class="col-lg-12 panel-body">  
     <?= $this->Form->create($seguimientosPrograma) ?>
-    <fieldset>
-        <legend><?= __('Add Seguimientos Programa') ?></legend>
+      
         <?php
-            echo $this->Form->control('clase_alumno_id', ['options' => $clasesAlumnos, 'empty' => true]);
-            echo $this->Form->control('observacion');
-            echo $this->Form->control('presente');
-            echo $this->Form->control('fecha', ['empty' => true]);
+            echo $this->Form->control('clase_alumno_id', ['options' => $clasesAlumnos, 'empty' => true,'label' => 'Alumno','required']);
+            echo $this->Form->control('observacion',['required','label' => 'Observación']);
+            echo $this->Form->control('presente', ['options' => $tiposPresentes, 'empty' => false]);
+            $this->Form->templates(
+                ['dateWidget' => '{{day}}{{month}}{{year}}{{hour}}{{minute}}']
+                );
+            echo $this->Form->control('fecha', ['false' => true,'label' => 'Fecha (sólo se requieren los primeros TRES campos)']);
         ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Guardar'),['class' => 'btn btn-lg btn-success btn-block','confirm' => 'VA A CARGAR ESTE SEGUIMIENTO. YA REVISÓ VER SEGUIMIENTOS?']) ?>
     <?= $this->Form->end() ?>
+    </div>
 </div>
