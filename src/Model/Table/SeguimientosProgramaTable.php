@@ -91,6 +91,7 @@ class SeguimientosProgramaTable extends Table
     	->order([
     			'Horarios.num_dia' => 'asc',
     			'Horarios.hora' => 'asc',
+    	        'SeguimientosPrograma.fecha' => 'asc',
     			
     	]);
     }
