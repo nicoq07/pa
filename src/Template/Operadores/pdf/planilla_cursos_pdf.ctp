@@ -117,7 +117,7 @@ getCodigo(FERIADO);
 				$x = 0;
 				for($i = 0; $i < $numDia; $i++ )
 				{
-					$presente = 'X';
+					$presente = ' ';
 					
 					reset($arrayPresentes);
 					while($alumno= current($arrayPresentes))
