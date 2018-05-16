@@ -118,34 +118,36 @@ function getAlumnoClase()
 		  ?>
           <div class="col-lg-12" > 
 	  		  <?php
-	  		  echo $this->Form->year('year',['empty' => 'Año','id' => 'year','name' => 'year','maxYear' => date('Y'),'onchange' => 'getOperadoresPorAnio();']);
-	          ?>
+	  		  //echo $this->Form->year('year',['empty' => 'Año','id' => 'year','name' => 'year','maxYear' => date('Y'),'onchange' => 'getOperadoresPorAnio();']);
+	  		  echo $this->Form->year('year',['empty' => 'Año','id' => 'year','name' => 'year','maxYear' => date('Y')]);
+	  		  
+	  		  ?>
           </div> 
-          
+        <!-- 
            <div class="col-lg-12" id="div-clases"> 
 	 	<div id = 'sprofesor' class= "col-lg-12">
 			<?php 
-	       		 echo $this->Form->label('operadores',['label' => 'Operadores']);
-	       		 echo $this->Form->select('operadores',['empty' => '-'],['id' => 'operadores','name' => 'operadores','onchange' => 'buscarDisciplinas();']);
+	       		// echo $this->Form->label('operadores',['label' => 'Operadores']);
+	       		// echo $this->Form->select('operadores',['empty' => '-'],['id' => 'operadores','name' => 'operadores','onchange' => 'buscarDisciplinas();']);
 	        ?>
         </div>
         <div id = 'sdisciplina' class= "col-lg-12">
          	   	<?php  
-         	   	echo $this->Form->label('disciplinas',['label' => 'Disciplinas']);
-         	   	echo $this->Form->select('disciplinas',['empty' => '-'],['id' => 'disciplinas','name' => 'disciplinas','onchange' => 'getDiaHorario();']);
+         	//   	echo $this->Form->label('disciplinas',['label' => 'Disciplinas']);
+         	//   	echo $this->Form->select('disciplinas',['empty' => '-'],['id' => 'disciplinas','name' => 'disciplinas','onchange' => 'getDiaHorario();']);
          	   	?>
          </div>
          <div id = 'shorario' class= "col-lg-12">
           <?php  
-          echo $this->Form->input('clases[]',['label' => 'Fecha y hora','option' => '-','empty' => '-','id' => 'clases','name' => 'clases','type' => 'select','onchange' => 'getAlumnoClase();']);
+      //    echo $this->Form->input('clases[]',['label' => 'Fecha y hora','option' => '-','empty' => '-','id' => 'clases','name' => 'clases','type' => 'select','onchange' => 'getAlumnoClase();']);
 	       ?>
 		 </div>
 		 <div id = 'shorario' class= "col-lg-12">
           <?php  
-         	 echo $this->Form->input('alumnos[]',['label' => 'Alumnos','option' => '-','empty' => '-','id' => 'alumnos','name' => 'alumnos','type' => 'select']);
+         //	 echo $this->Form->input('alumnos[]',['label' => 'Alumnos','option' => '-','empty' => '-','id' => 'alumnos','name' => 'alumnos','type' => 'select']);
 	       ?>
 		 </div>
-	 </div>
+	 </div> -->  
 		  <?= $this->Form->button(__('Descargar')) ?>
 	    <?= $this->Form->end() ?>
 </div>
