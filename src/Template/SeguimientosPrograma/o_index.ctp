@@ -19,8 +19,8 @@
         <tbody>
             <?php foreach ($seguimientosPrograma as $seguimientos): ?>
             <tr>
-                <td><?= $this->Html->link($seguimientos->clases_alumno->clase->presentacionCorta, ['controller' => 'Clases', 'action' => 'p_view', $seguimientos->clases_alumno->clase->id])  ?></td>
-                <td><?= $this->Html->link($seguimientos->clases_alumno->alumno->presentacion, ['controller' => 'Alumnos', 'action' => 'p_view', $seguimientos->clases_alumno->alumno->id])  ?></td>
+                <td><?= $this->Html->link($seguimientos->clases_alumno->clase->presentacionCorta, ['controller' => 'Clases', 'action' => 'o_view', $seguimientos->clases_alumno->clase->id])  ?></td>
+                <td><?= $this->Html->link($seguimientos->clases_alumno->alumno->presentacion, ['controller' => 'Alumnos', 'action' => 'o_view', $seguimientos->clases_alumno->alumno->id])  ?></td>
                 <td><?= h($seguimientos->presente ) ?></td>
                 <td><?= h($seguimientos->fecha->format('d-m-Y')) ?></td>
                 <td class="actions">
