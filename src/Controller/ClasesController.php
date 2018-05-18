@@ -135,7 +135,9 @@ class ClasesController extends AppController
     	]);
     	$clasesAlumnosTable = TableRegistry::get('ClasesAlumnos');
     	$clasesAlumnos = $clasesAlumnosTable->find('all')
+    	->contain(['SeguimientosPrograma' => ['conditions' => ['DATE(SeguimientosPrograma.fecha)' => date('Y-m-d')]]])
     	->where(['ClasesAlumnos.clase_id' => $clase->id, 'ClasesAlumnos.active' => true]);
+    	
     	$this->set(['clase','clasesAlumnos'], [$clase,$clasesAlumnos]);
     	$this->set('_serialize', ['clase']);
     }
