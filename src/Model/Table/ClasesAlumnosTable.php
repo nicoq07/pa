@@ -50,7 +50,7 @@ class ClasesAlumnosTable extends Table
             'joinType' => 'INNER'
         ]);
         
-        $this->hasMany('SeguimientosClasesAlumnos', [
+        $this->hasMany('SeguimientosPrograma', [
         		'foreignKey' => 'clase_alumno_id'
         ]);
     }
