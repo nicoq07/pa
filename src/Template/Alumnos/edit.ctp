@@ -217,7 +217,7 @@
 	          <div class="col-lg-2 col-lg-offset-1">
 	        
 	          	<?php  
-	          	echo ("Clases")?>
+	          	echo ("Clases inscriptas")?>
 			  </div>				         
 				<div class="col-lg-7 1 ">
 				 <ul>
@@ -229,6 +229,7 @@
 			      </ul> 
 	         	</div>
 	         </div> 
+	         <?php if (!($current_user['rol_id'] == OPERADOR)) :?>
 	          <div class="col-lg-10 col-lg-offset-1" id="div-clases"> 
 		         	<div id = 'soperador' class= "col-lg-4">
 					<?php 
@@ -248,9 +249,11 @@
 			        </div>
 			        <div class="col-lg-1" id="div-add" > 	<input type="button" class="btn-sm btn-info" id="btnAdd" value="+" onclick="addClase();" /></div>
 	         </div>  
+	         <?php endif;?>
 	    	<div class="col-lg-10 col-lg-offset-1"> 
+	    	
 	         <?=
- 			 $this->Form->button('Guardar',['class' => 'btn-lg btn-info']) 
+ 			 $this->Form->button('Guardar',['class' => 'btn-lg btn-info btn-block']) 
  			 ?>
 	         </div>
 	          
