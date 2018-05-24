@@ -60,14 +60,23 @@ function marcarLeido(mensajeId)
                                      <!--  </div> -->
                                     </div>
                                     <div style="height: 100%;" class="media-body">
-                                        <?= h($mensaje->descripcion) ?>
-                                        <br>
+                                		<div class='col-lg-10'>
+                                			<?= h($mensaje->descripcion) ?>
                                         <small class="text-muted">  <?="  " . h($mensaje->created->format('h:m a d-m-Y '))  ?></small>
-                                                                            <?php if (!$mensaje->leida) { ?> 
-                                                                                <button title="Marcar como leída" id ="<?php echo $mensaje->id?>" style="background-color:#f2f1f2;"  class="pull-right btn-sm btn-default glyphicon glyphicon-check" onclick="marcarLeido(<?php echo $mensaje->id ?>)"> </button>
-                                       <?php } ?>
-                                        <hr>
+                                                                            
+                                		</div>
+                                        <div class='col-lg-2'>
+                                        	<div class='col-lg-12'>
+                                        	<?php echo $this->Html->link('a'); ?>
+                                       		 </div>
+                                       		 <div class='col-lg-12'>
+<?php if (!$mensaje->leida) { ?> 
+                                                                                <button title="Marcar como leída" id ="<?php echo $mensaje->id; ?>" style="background-color:#f2f1f2;"  class='pull-right btn-sm btn-default glyphicon glyphicon-check' onclick="marcarLeido(<?php echo $mensaje->id; ?>)"> </button>
+                                       										 <?php } ?>                                        </div>
+                                        </div>
                                         
+                                        <hr>
+                                       
                                     </div>
                                 </div>
                             </div>
