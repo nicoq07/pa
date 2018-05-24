@@ -227,10 +227,10 @@ class SeguimientosProgramaController extends AppController
         ->contain(['Horarios' => ['Ciclolectivo' =>['conditions' => ['YEAR(fecha_inicio)' => date('Y')]]]])
         ->where(['Clases.operador_id' => $operador_id]);
         
-        
         $clasesAlumnos = $this->SeguimientosPrograma->ClasesAlumnos->find('list')
         ->contain(['Alumnos'])
-        ->where(['ClasesAlumnos.clase_id' => $clases])
+        ->where(['ClasesAlumnos.clase_id IN' => $clases])
+        ->order(['Alumnos.apellido' => 'ASC','Alumnos.nombre' => 'ASC'])
         ;
         $this->loadComponent('TipoPresentes');
         $tiposPresentes = $this->TipoPresentes->getArrayTipoPresentes();
