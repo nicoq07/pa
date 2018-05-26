@@ -162,9 +162,9 @@ class NotificacionesController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $notificacione = $this->Notificaciones->get($id);
         if ($this->Notificaciones->delete($notificacione)) {
-            $this->Flash->success(__('The notificacione has been deleted.'));
+            $this->Flash->success(__('Mensaje borrado.'));
         } else {
-            $this->Flash->error(__('The notificacione could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Error, reintente.'));
         }
 
         return $this->redirect(['action' => 'index']);

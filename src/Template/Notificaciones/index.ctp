@@ -67,12 +67,13 @@ function marcarLeido(mensajeId)
                                 		</div>
                                         <div class='col-lg-2'>
                                         	<div class='col-lg-12'>
-                                        	<?php echo $this->Html->link('a'); ?>
+                       							 <?=  $this->Form->postLink(' ', ['controller' => 'Notificaciones', 'action' => 'delete',$mensaje->id],['confirm' => h('¿Confirma borrar el mensaje?'),'title' => 'Borrar' ,'style' => 'color:red', 'class' => 'btn-sm glyphicon glyphicon-trash ']) ?>
                                        		 </div>
                                        		 <div class='col-lg-12'>
-<?php if (!$mensaje->leida) { ?> 
-                                                                                <button title="Marcar como leída" id ="<?php echo $mensaje->id; ?>" style="background-color:#f2f1f2;"  class='pull-right btn-sm btn-default glyphicon glyphicon-check' onclick="marcarLeido(<?php echo $mensaje->id; ?>)"> </button>
-                                       										 <?php } ?>                                        </div>
+												<?php if (!$mensaje->leida) { ?> 
+                                                 <button title="Marcar como leída" id ="<?php echo $mensaje->id; ?>" style="background-color:#f2f1f2;"  class='btn-sm btn-default glyphicon glyphicon-check' onclick="marcarLeido(<?php echo $mensaje->id; ?>)"> </button>
+                                       			<?php } ?>                                        
+                                       		</div>
                                         </div>
                                         
                                         <hr>
