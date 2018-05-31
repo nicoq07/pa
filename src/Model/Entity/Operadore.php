@@ -44,17 +44,17 @@ class Operadore extends Entity
         '*' => true,
         'id' => false
     ];
-    
+
     public function _getPresentacion()
     {
-    	$nomyape = $this->_properties['nombre'] . ' ' . $this->_properties['apellido'];
-    	return $nomyape;
+        $nomyape = $this->_properties['nombre'] . ' ' . $this->_properties['apellido'];
+        return $nomyape;
     }
-    
+
     public function workingDays($mes)
     {
-    	$id = $this->_properties['id'];
-    	$query = "SELECT DISTINCT DATE_FORMAT(s.fecha, '%d') as fecha, c.id as id, h.nombre_dia
+        $id = $this->_properties['id'];
+        $query = "SELECT DISTINCT DATE_FORMAT(s.fecha, '%d') as fecha, h.nombre_dia
     	FROM
     	seguimientos_programa as s,
     	horarios as h,
@@ -72,17 +72,17 @@ class Operadore extends Entity
     	GROUP BY fecha
     	order by(s.fecha)
     	";
-    	
-    	//     	echo $query;
-    	$connection = ConnectionManager::get('default');
-    	$dias = $connection->execute($query);
-    	$r = array();
-    	foreach ($dias as $dia)
-    	{
-    		array_push($r, [$dia['nombre_dia'] => $dia['fecha']]);
-    	}
-    	
-    	
-    	return $r;
+        
+        // echo $query;
+        $connection = ConnectionManager::get('default');
+        $dias = $connection->execute($query);
+        $r = array();
+        foreach ($dias as $dia) {
+            array_push($r, [
+                $dia['nombre_dia'] => $dia['fecha']
+            ]);
+        }
+        
+        return $r;
     }
 }
